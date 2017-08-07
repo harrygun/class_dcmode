@@ -4203,8 +4203,7 @@ int perturb_initial_conditions(struct precision * ppr,
 
       #define kstar 0.05*0.67556
       #define nd  1.
-      #define ng  0.9619
-      #define Dfac (0.2*pow(k/kstar, 0.5*nd)*pow(k/0.05, -0.5*ng)) 
+      #define Dfac (0.2*pow(k/kstar, 0.5*nd))
 
       //#define phi_var  0 
       #define phi_var  (M_PI/4.)

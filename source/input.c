@@ -1455,9 +1455,18 @@ int input_read_parameters(
         if ((strstr(string1,"niv") != NULL) || (strstr(string1,"NIV") != NULL))
           ppt->has_niv=_TRUE_;
 
-        class_test(ppt->has_ad==_FALSE_ && ppt->has_bi ==_FALSE_ && ppt->has_cdi ==_FALSE_ && ppt->has_nid ==_FALSE_ && ppt->has_niv ==_FALSE_,
+        /* (Xin) add adiabatic-decaying scalar IC */
+        if ((strstr(string1,"addcs") != NULL) || (strstr(string1,"ADDCS") != NULL))
+          ppt->has_addcs=_TRUE_;
+
+        class_test(ppt->has_ad==_FALSE_ && ppt->has_bi ==_FALSE_ && ppt->has_cdi ==_FALSE_ && ppt->has_nid ==_FALSE_ && ppt->has_niv ==_FALSE_ && ppt->has_addcs,
+                   errmsg,
+                   "You wrote: ic=%s. Could not identify any of the initial conditions ('ad', 'bi', 'cdi', 'nid', 'niv', 'addcs') in such input",string1);
+
+        /*class_test(ppt->has_ad==_FALSE_ && ppt->has_bi ==_FALSE_ && ppt->has_cdi ==_FALSE_ && ppt->has_nid ==_FALSE_ && ppt->has_niv ==_FALSE_,
                    errmsg,
                    "You wrote: ic=%s. Could not identify any of the initial conditions ('ad', 'bi', 'cdi', 'nid', 'niv') in such input",string1);
+		   */
 
       }
     }
@@ -1483,6 +1492,18 @@ int input_read_parameters(
     }
 
     if (ppt->has_tensors == _TRUE_){
+
+      /* (Xin) add tensor decaying initial condition */
+      class_call(parser_read_string(pfc,"ic_tensor",&string1,&flag1,errmsg),
+                 errmsg,
+                 errmsg);
+
+      if (flag1 == _TRUE_) {
+        if ((strstr(string1,"addct") != NULL) || (strstr(string1,"ADDCT") != NULL))
+          ppt->has_addct=_TRUE_;
+      }
+      /* -- */
+
 
       class_test((ppt->has_cl_cmb_temperature == _FALSE_) && (ppt->has_cl_cmb_polarization == _FALSE_),
                  errmsg,
@@ -1526,6 +1547,12 @@ int input_read_parameters(
     class_test(flag2==_FALSE_,
                errmsg,
                "could not identify primordial spectrum type, check that it is one of 'analytic_pk', 'two_scales', 'inflation_V', 'inflation_H', 'external_Pk'...");
+
+    /* (Xin) */
+    class_test((ppm->primordial_spec_type!=analytic_Pk)&&( (ppt->has_addcs==_TRUE_)||(ppt->has_addct==_TRUE_) ),
+               errmsg,
+               "addabatic-decaying mode only support analytic_pk, set `P_k_ini type`=analytic_Pk");
+
   }
 
   class_read_double("k_pivot",ppm->k_pivot);
@@ -1709,6 +1736,17 @@ int input_read_parameters(
         class_read_double("alpha_niv",ppm->alpha_niv);
 
       }
+      
+      /* (Xin) adiabatic-decaying-scalar auto-spectrum */
+      if (ppt->has_addcs == _TRUE_) {
+
+        class_read_double("f_addcs",ppm->f_addcs);
+        class_read_double("n_addcs",ppm->n_addcs);
+        class_read_double("alpha_addcs",ppm->alpha_addcs);
+
+      }
+      /* -- */
+
 
       if ((ppt->has_ad == _TRUE_) && (ppt->has_bi == _TRUE_)) {
         class_read_double_one_of_two("c_ad_bi","c_bi_ad",ppm->c_ad_bi);
@@ -1770,6 +1808,39 @@ int input_read_parameters(
         class_read_double_one_of_two("alpha_nid_niv","alpha_niv_nid",ppm->alpha_nid_niv);
       }
 
+      /* (Xin) cross-correlation between adiabatic-decaying-scalar with others */
+      if ((ppt->has_addcs == _TRUE_) && (ppt->has_ad == _TRUE_)) {
+        class_read_double_one_of_two("c_ad_addcs","c_addcs_ad",ppm->c_ad_addcs);
+        class_read_double_one_of_two("n_ad_addcs","n_addcs_ad",ppm->n_ad_addcs);
+        class_read_double_one_of_two("alpha_ad_addcs","alpha_addcs_ad",ppm->alpha_ad_addcs);
+      }
+
+      if ((ppt->has_addcs == _TRUE_) && (ppt->has_bi == _TRUE_)) {
+        class_read_double_one_of_two("c_addcs_bi","c_bi_addcs",ppm->c_addcs_bi);
+        class_read_double_one_of_two("n_addcs_bi","n_bi_addcs",ppm->n_addcs_bi);
+        class_read_double_one_of_two("alpha_addcs_bi","alpha_bi_addcs",ppm->alpha_addcs_bi);
+      }
+
+      if ((ppt->has_addcs == _TRUE_) && (ppt->has_cdi == _TRUE_)) {
+        class_read_double_one_of_two("c_addcs_cdi","c_cdi_addcs",ppm->c_addcs_cdi);
+        class_read_double_one_of_two("n_addcs_cdi","n_cdi_addcs",ppm->n_addcs_cdi);
+        class_read_double_one_of_two("alpha_addcs_cdi","alpha_cdi_addcs",ppm->alpha_addcs_cdi);
+      }
+
+      if ((ppt->has_addcs == _TRUE_) && (ppt->has_nid == _TRUE_)) {
+        class_read_double_one_of_two("c_addcs_nid","c_nid_addcs",ppm->c_addcs_nid);
+        class_read_double_one_of_two("n_addcs_nid","n_nid_addcs",ppm->n_addcs_nid);
+        class_read_double_one_of_two("alpha_addcs_nid","alpha_nid_addcs",ppm->alpha_addcs_nid);
+      }
+
+      if ((ppt->has_addcs == _TRUE_) && (ppt->has_niv == _TRUE_)) {
+        class_read_double_one_of_two("c_addcs_niv","c_niv_addcs",ppm->c_addcs_niv);
+        class_read_double_one_of_two("n_addcs_niv","n_niv_addcs",ppm->n_addcs_niv);
+        class_read_double_one_of_two("alpha_addcs_niv","alpha_niv_addcs",ppm->alpha_addcs_niv);
+      }
+
+      /* -- */
+
     }
 
     if (ppt->has_tensors == _TRUE_) {
@@ -1804,6 +1875,22 @@ int input_read_parameters(
           /* enforce single slow-roll self-consistency condition (order 2 in slow-roll) */
           ppm->alpha_t = ppm->r/8.*(ppm->r/8.+ppm->n_s-1.);
         }
+
+        /* (Xin) power spectrum parameter of decaying tensor mode */
+	if(ppt->has_addct) 
+	  {
+          /* autospectrum of decaying-tensor mode */
+          class_read_double("f_addct",ppm->f_addct);
+          class_read_double("n_addct",ppm->n_addct);
+          class_read_double("alpha_addct",ppm->alpha_addct);
+           
+	  /* cross-correlation of decaying-tensor mode */
+          class_read_double_one_of_two("c_t_addct","c_addct_t",ppm->c_t_addct);
+          class_read_double_one_of_two("n_t_addct","n_addct_t",ppm->n_t_addct);
+          class_read_double_one_of_two("alpha_t_addct","alpha_addct_t",ppm->alpha_t_addct);
+	  }
+	/* -- */
+
       }
     }
   }
@@ -2967,6 +3054,10 @@ int input_default_params(
   ppt->has_nid=_FALSE_;
   ppt->has_niv=_FALSE_;
 
+  /* (Xin) adiabatic decaying modes */
+  ppt->has_addcs=_FALSE_;
+  ppt->has_addct=_FALSE_;
+
   ppt->has_perturbed_recombination=_FALSE_;
   ppt->tensor_method = tm_massless_approximation;
   ppt->evolve_tensor_ur = _FALSE_;
@@ -3084,6 +3175,38 @@ int input_default_params(
   ppm->custom8=0.;
   ppm->custom9=0.;
   ppm->custom10=0.;
+
+  /* (Xin) decaying mode default values */
+  ppm->f_addcs = 1.;
+  ppm->n_addcs = 1.;
+  ppm->alpha_addcs = 0.;
+
+  ppm->c_ad_addcs = 1.;
+  ppm->c_addcs_bi = 1.;
+  ppm->c_addcs_cdi = 1. ;
+  ppm->c_addcs_nid = 1.; 
+  ppm->c_addcs_niv = 1.;
+  ppm->n_ad_addcs = 0.; 
+  ppm->n_addcs_bi = 0.; 
+  ppm->n_addcs_cdi = 0.; 
+  ppm->n_addcs_nid = 0.;  
+  ppm->n_addcs_niv = 0.;
+  ppm->alpha_ad_addcs = 0.; 
+  ppm->alpha_addcs_bi = 0.;, 
+  ppm->alpha_addcs_cdi = 0.; 
+  ppm->alpha_addcs_nid = 0.;
+  ppm->alpha_addcs_niv = 0.;
+
+  /* decaying tensor mode */
+  ppm->f_addct=1.;
+  ppm->n_addct=1.;
+  ppm->alpha_addct=0.;
+
+  ppm->c_t_addct=1.;
+  ppm->n_t_addct=0.;
+  ppm->alpha_t_addct=0.;
+  /* -- */
+
 
   /** - transfer structure */
 

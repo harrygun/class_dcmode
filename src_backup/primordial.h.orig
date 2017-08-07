@@ -99,11 +99,6 @@ struct primordial {
   double n_t;  /**< usual tensor tilt = [GW power spectrum tilt at pivot scale] */
   double alpha_t; /**< usual tensor running */
 
-  /* (Xin) decaying tensor mode */
-  double f_addct, n_addct, alpha_addct;    /* decaying tensor autospectrum */
-  double c_t_addct, n_t_addct, alpha_t_addct;  /* cross-correlation between tensor and decaying-decay mode */
-  /* -- */
-
   double f_bi;  /**< baryon isocurvature (BI) entropy-to-curvature ratio \f$ S_{bi}/R \f$*/
   double n_bi;  /**< BI tilt */
   double alpha_bi; /**< BI running */
@@ -119,12 +114,6 @@ struct primordial {
   double f_niv;  /**< neutrino velocity isocurvature (NIV) entropy-to-curvature ratio \f$ S_{niv}/R \f$*/
   double n_niv;  /**< NIV tilt */
   double alpha_niv; /**< NIV running */
-
-  /* (Xin) adiabatic-decaying-scalar primordial spectrum */
-  double f_addcs;
-  double n_addcs;
-  double alpha_addcs;
-  /* -- */
 
   double c_ad_bi; /**< ADxBI cross-correlation at pivot scale, from -1 to 1 */
   double n_ad_bi; /**< ADxBI cross-correlation tilt */
@@ -165,12 +154,6 @@ struct primordial {
   double c_nid_niv; /**< NIDxNIV cross-correlation at pivot scale, from -1 to 1 */
   double n_nid_niv; /**< NIDxNIV cross-correlation tilt */
   double alpha_nid_niv; /**< NIDxNIV cross-correlation running */
-
-  /* (Xin) cross-correlation of adiabatic-decaying-scalar with others */
-  double c_ad_addcs, c_addcs_bi, c_addcs_cdi, c_addcs_nid, c_addcs_niv;
-  double n_ad_addcs, n_addcs_bi, n_addcs_cdi, n_addcs_nid, n_addcs_niv;
-  double alpha_ad_addcs, alpha_addcs_bi, alpha_addcs_cdi, alpha_addcs_nid, alpha_addcs_niv;
-  /* -- */
 
   /** parameters describing the case primordial_spec_type = inflation_V */
 

@@ -115,10 +115,6 @@ struct perturbs
   short has_nid;     /**< do we need isocurvature nid mode? */
   short has_niv;     /**< do we need isocurvature niv mode? */
 
-  /* (Xin) add decaying modes */
-  short has_addcs; /**< do we need adiabatic-decaying scalar addcs mode? **/
-  short has_addct; /**< do we need adiabatic-decaying tensor addct mode? **/
-
   /* perturbed recombination */
   /** Do we want to consider perturbed temperature and ionization fraction? */
   short has_perturbed_recombination;

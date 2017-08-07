@@ -4188,106 +4188,6 @@ int perturb_initial_conditions(struct precision * ppr,
          appear through the solution of Einstein equations and
          equations of motion. */
 
-    
-      #define _DECAY_ADIC_
-      #ifdef _DECAY_ADIC_
-      /* by Xin Wang (2017) */
-
-      //printf("Get here 0.\n"); fflush(stdout);
-
-      /* all curvature terms are neglected */
-      //class_test(ppr->curvature_ini==1,
-      //          pba->error_message,
-      //          "Adiabatic decay mode only works for zero Curvature(%e) \n", ppr->curvature_ini);
-
-
-      #define kstar 0.05*0.67556
-      #define nd  1.
-      #define ng  0.9619
-      #define Dfac (0.2*pow(k/kstar, 0.5*nd)*pow(k/0.05, -0.5*ng)) 
-
-      //#define phi_var  0 
-      #define phi_var  (M_PI/4.)
-      #define gamma_var sqrt(32./5.*fracnu - 1.)
-
-      #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
-
-
-      /* photon density */
-      ppw->pv->y[ppw->pv->index_pt_delta_g] = - ktau_two/3. - Dfac*pow(k*tau, 1.5)*sin(Xvar)/3.;
-
-      /* photon velocity */
-      ppw->pv->y[ppw->pv->index_pt_theta_g] = - k*ktau_three/36. + Dfac*k*pow(k*tau,2.5)/6./(25.+gamma_var*gamma_var)*(gamma_var*cos(Xvar)-5.*sin(Xvar) );
-
-
-      /* tighly-coupled baryons */
-      ppw->pv->y[ppw->pv->index_pt_delta_b] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* baryon density */
-      ppw->pv->y[ppw->pv->index_pt_theta_b] = ppw->pv->y[ppw->pv->index_pt_theta_g]; /* baryon velocity */
-
-      if (pba->has_cdm == _TRUE_) {
-        ppw->pv->y[ppw->pv->index_pt_delta_cdm] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* cdm density */
-        /* cdm velocity vanishes in the synchronous gauge */
-      }
-
-
-      if (pba->has_dcdm == _TRUE_) {
-	printf("dcdm NOT supported for decaying IC mode.\n"); fflush(stdout);
-	return _FAILURE_;
-
-      }
-
-
-      /* fluid (assumes wa=0, if this is not the case the
-         fluid will catch anyway the attractor solution) */
-      if (pba->has_fld == _TRUE_) {
-	printf("fld NOT supported for decaying IC mode.\n"); fflush(stdout);
-	return _FAILURE_;
-
-      }
-
-
-      if (pba->has_scf == _TRUE_) {
-	printf("scf NOT supported for decaying IC mode.\n"); fflush(stdout);
-	return _FAILURE_;
-      }
-
-      /* relativistic relics: early ncdm, dr */
-      if ((pba->has_dr == _TRUE_) || (pba->has_ncdm == _TRUE_)) {
-        printf("scf NOT supported for decaying IC mode.\n"); fflush(stdout);
-        return _FAILURE_;
-      }
-
-
-      if (pba->has_ur == _TRUE_) {
-
-        /* density of ultra-relativistic neutrinos/relics */
-        //delta_ur = ppw->pv->y[ppw->pv->index_pt_delta_g] + Dfac/2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) );
-        delta_ur = - ktau_two/3. + Dfac/2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) );
-
-        /* velocity of ultra-relativistic neutrinos/relics */ //TBC
-        theta_ur = - k*ktau_three/36./(4.*fracnu+15.) * (4.*fracnu+23.) + Dfac/32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(Xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(Xvar) ); 
-
-
-        //TBC /s2_squared; /* shear of ultra-relativistic neutrinos/relics */  //TBC:0
-        shear_ur = 2.*ktau_two/(45.+12.*fracnu)+Dfac/2./pow(k*tau,0.5)*(gamma_var/2.*cos(Xvar)+( (11.-16*fracnu/5.)/10.)*sin(Xvar) );
-
-        l3_ur = 0.; //ktau_three*2./7./(12.*fracnu+45.)* ppr->curvature_ini;//TBC
-
-
-      }
-
-      //printf("Get here 5.\n"); fflush(stdout);
-
-      /* synchronous metric perturbation eta */
-      //eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om)) /  s2_squared;
-      //eta = ppr->curvature_ini * s2_squared * (1.-ktau_two/12./(15.+4.*fracnu)*(15.*s2_squared-10.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om));
-
-      eta = 1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*fracnu) + Dfac/2./pow(k*tau,0.5)*((11.-16*fracnu/5.)/8.*sin(Xvar) + 5.*gamma_var/8.*cos(Xvar) );
-
-      //printf("set decaying adiabatic initial mode.\n"); fflush(stdout);
-
-      #else
-
       /* photon density */
       ppw->pv->y[ppw->pv->index_pt_delta_g] = - ktau_two/3. * (1.-om*tau/5.)
         * ppr->curvature_ini * s2_squared;
@@ -4364,10 +4264,6 @@ int perturb_initial_conditions(struct precision * ppr,
       //eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om)) /  s2_squared;
       //eta = ppr->curvature_ini * s2_squared * (1.-ktau_two/12./(15.+4.*fracnu)*(15.*s2_squared-10.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om));
       eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om));
-
-
-    #endif
-
 
     }
 

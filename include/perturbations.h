@@ -229,6 +229,10 @@ struct perturbs
   int index_ic_nid; /**< index value for neutrino density isocurvature */
   int index_ic_niv; /**< index value for neutrino velocity isocurvature */
   int index_ic_ten; /**< index value for unique possibility for tensors */
+  /*(Xin) */
+  int index_ic_addcs; 
+  int index_ic_addct;
+
 
   int * ic_size;       /**< for a given mode, ic_size[index_md] = number of initial conditions included in computation */
 

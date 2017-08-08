@@ -3181,7 +3181,7 @@ int input_default_params(
   ppm->f_addcs = 1.;
   ppm->n_addcs = 1.;
   ppm->alpha_addcs = 0.;
-  ppm->phi_addcs = 0.;
+  ppt->phi_addcs = 0.;
 
   ppm->c_ad_addcs = 1.;
   ppm->c_addcs_bi = 1.;

@@ -1084,8 +1084,6 @@ int transfer_get_q_list(
   /* create array with this conservative size estimate. The exact size
      will be readjusted below, after filling the array. */
 
-  printf("q_size_max=%d\n", q_size_max); fflush(stdout);
-
   class_alloc(ptr->q,
               q_size_max*sizeof(double),
               ptr->error_message);

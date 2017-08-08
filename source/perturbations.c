@@ -4404,7 +4404,7 @@ int perturb_initial_conditions(struct precision * ppr,
 
 
       //#define phi_var  0 
-      //#define phi_var  (M_PI/4.)
+      #define phi_var  (M_PI/4.)
       #define gamma_var sqrt(32./5.*fracnu - 1.)
 
       #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 

@@ -4404,10 +4404,12 @@ int perturb_initial_conditions(struct precision * ppr,
 
 
       //#define phi_var  0 
-      #define phi_var  (M_PI/4.)
-      #define gamma_var sqrt(32./5.*fracnu - 1.)
+      //#define phi_var  (M_PI/4.)
 
+      #define gamma_var sqrt(32./5.*fracnu - 1.)
+      #define phi_var ppt->phi_addcs 
       #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
+
       /*!!! define phi_var in 'perturbation.h' instead of 'primordial.h', modify 'input.c' as well*/
 
 

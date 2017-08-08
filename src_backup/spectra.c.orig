@@ -3563,13 +3563,5 @@ int spectra_output_tk_data(
     strcpy(ic_suffix,"niv");
     strcpy(first_line,"for neutrino velocity isocurvature (NIV) mode (normalized to initial entropy=1)");
   }
-
-  /* (Xin) */
-  if ((ppt->has_addcs == _TRUE_) && (index_ic == ppt->index_ic_addcs)) {
-    strcpy(ic_suffix,"addcs");
-    strcpy(first_line,"for adiabatic decaying scalar (ADDCS) mode (normalized to initial entropy=1)");
-  }
-  /* -- */
-
   return _SUCCESS_;
 }

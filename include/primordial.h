@@ -124,7 +124,7 @@ struct primordial {
   double f_addcs;
   double n_addcs;
   double alpha_addcs;
-  double phi_addcs;   /* extra parameter for addiabatic-decaying scalar mode */
+  //double phi_addcs;   /* extra parameter for addiabatic-decaying scalar mode */
   /* -- */
 
   double c_ad_bi; /**< ADxBI cross-correlation at pivot scale, from -1 to 1 */

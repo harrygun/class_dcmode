@@ -764,15 +764,6 @@ int primordial_analytic_spectrum_init(
           one_tilt = ppm->n_niv;
           one_running = ppm->alpha_niv;
         }
-
-	/* (Xin) adabatic-decaying scalar */
-
-        if ((ppt->has_addcs == _TRUE_) && (index_ic1 == ppt->index_ic_addcs)) {
-          one_amplitude = ppm->A_s*ppm->f_addcs*ppm->f_addcs;
-          one_tilt = ppm->n_addcs;
-          one_running = ppm->alpha_addcs;
-        }
-	/* - (Xin) - */
       }
 
       if (_tensors_) {
@@ -782,15 +773,6 @@ int primordial_analytic_spectrum_init(
           one_tilt = ppm->n_t+1.; /* +1 to match usual definition of n_t (equivalent to n_s-1) */
           one_running = ppm->alpha_t;
         }
-	/* (Xin) adabatic-decaying scalar */
-        if ((ppt->has_addct == _TRUE_) && (index_ic1 == ppt->index_ic_addct)) {
-
-          one_amplitude = ppm->A_s*ppm->r*ppm->f_addct*ppm->f_addct;
-          one_tilt = ppm->n_addct+1;   /* remember this definition */
-          one_running = ppm->alpha_addct;
-        }
-	/* - (Xin) - */
-
       }
 
       class_test(one_amplitude <= 0.,
@@ -893,64 +875,7 @@ int primordial_analytic_spectrum_init(
             one_running = ppm->alpha_nid_niv;
           }
 
-          /* (Xin) adiabatic-decaying-scalar cross terms */
-          if ((ppt->has_ad == _TRUE_) && (ppt->has_addcs == _TRUE_) &&
-              (((index_ic1 == ppt->index_ic_ad) && (index_ic2 == ppt->index_ic_addcs)) ||
-               ((index_ic1 == ppt->index_ic_ad) && (index_ic1 == ppt->index_ic_addcs)))) {
-            one_correlation = ppm->c_ad_addcs;
-            one_tilt = ppm->n_ad_addcs;
-            one_running = ppm->alpha_ad_addcs;
-          }
-
-          if ((ppt->has_addcs == _TRUE_) && (ppt->has_bi == _TRUE_) &&
-              (((index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_bi)) ||
-               ((index_ic1 == ppt->index_ic_addcs) && (index_ic1 == ppt->index_ic_bi)))) {
-            one_correlation = ppm->c_addcs_bi;
-            one_tilt = ppm->n_addcs_bi;
-            one_running = ppm->alpha_addcs_bi;
-          }
-
-          if ((ppt->has_addcs == _TRUE_) && (ppt->has_cdi == _TRUE_) &&
-              (((index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_cdi)) ||
-               ((index_ic2 == ppt->index_ic_addcs) && (index_ic1 == ppt->index_ic_cdi)))) {
-            one_correlation = ppm->c_addcs_cdi;
-            one_tilt = ppm->n_addcs_cdi;
-            one_running = ppm->alpha_addcs_cdi;
-          }
-
-          if ((ppt->has_addcs == _TRUE_) && (ppt->has_nid == _TRUE_) &&
-              (((index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_nid)) ||
-               ((index_ic2 == ppt->index_ic_addcs) && (index_ic1 == ppt->index_ic_nid)))) {
-            one_correlation = ppm->c_addcs_nid;
-            one_tilt = ppm->n_addcs_nid;
-            one_running = ppm->alpha_addcs_nid;
-          }
-
-          if ((ppt->has_addcs == _TRUE_) && (ppt->has_niv == _TRUE_) &&
-              (((index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_niv)) ||
-               ((index_ic2 == ppt->index_ic_addcs) && (index_ic1 == ppt->index_ic_niv)))) {
-            one_correlation = ppm->c_addcs_niv;
-            one_tilt = ppm->n_addcs_niv;
-            one_running = ppm->alpha_addcs_niv;
-          }
-	  /* - (Xin) - */
-
         }
-
-      /* (Xin) adiabatic-decaying-tensor cross-terms */
-      if (_tensors_) {
-
-        if ((ppt->has_addct == _TRUE_) && 
-             (((index_ic1 == ppt->index_ic_ten) && (index_ic2 == ppt->index_ic_addct)) ||
-             ((index_ic2 == ppt->index_ic_ten) && (index_ic1 == ppt->index_ic_addct)))) {
-	
-          one_amplitude = ppm->c_t_addct;
-          one_tilt = ppm->n_t_addct;
-          one_running = ppm->alpha_t_addct;
-        }
-      }
-      /* - (Xin) - */
-
 
         class_test((one_correlation < -1) || (one_correlation > 1),
                    ppm->error_message,

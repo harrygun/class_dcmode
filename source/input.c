@@ -1744,7 +1744,7 @@ int input_read_parameters(
         class_read_double("n_addcs",ppm->n_addcs);
         class_read_double("alpha_addcs",ppm->alpha_addcs);
 
-        class_read_double("phi_addcs",ppm->phi_addcs);
+        class_read_double("phi_addcs",ppt->phi_addcs); /* !! this parameter is in ppt instead of ppm */
       }
       /* -- */
 

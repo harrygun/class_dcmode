@@ -398,6 +398,15 @@ int output_cl(
               strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar neutrino velocity isocurvature (NIV) mode");
             }
 
+	    /* (Xin) write down addcs */
+            if ((ppt->has_addcs == _TRUE_) &&
+                (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_addcs)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_addcs.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for adiabatic decaying scalar (ADDCS) mode");
+            }
+	    /* - (Xin) - */
+
             if ((ppt->has_ad == _TRUE_) &&
                 (ppt->has_bi == _TRUE_) && (index_ic1 == ppt->index_ic_ad) && (index_ic2 == ppt->index_ic_bi)) {
 
@@ -468,13 +477,70 @@ int output_cl(
               strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar cross NIDxNIV mode");
             }
 
+	    /* (Xin) write down cross power spectrum with addcs */
+            if ((ppt->has_ad == _TRUE_) &&
+                (ppt->has_addcs == _TRUE_) && (index_ic1 == ppt->index_ic_ad) && (index_ic2 == ppt->index_ic_addcs)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_ad_addcs.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar cross ADxADDCS mode");
+            }
+
+            if ((ppt->has_addcs == _TRUE_) &&
+                (ppt->has_bi == _TRUE_) && (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_bi)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_addcs_bi.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar cross ADDCSxBI mode");
+            }
+
+            if ((ppt->has_addcs == _TRUE_) && (ppt->has_cdi == _TRUE_) &&
+                (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_cdi)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_addcs_cdi.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar cross ADDCSxCDI mode");
+            }
+
+            if ((ppt->has_addcs == _TRUE_) && (ppt->has_nid == _TRUE_) &&
+                (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_nid)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_addcs_nid.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar cross ADDCSxNID mode");
+            }
+
+            if ((ppt->has_addcs == _TRUE_) && (ppt->has_niv == _TRUE_) &&
+                (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_niv)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_addcs_niv.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for scalar cross ADDCSxNIV mode");
+            }
+
+	    /* - (Xin) - */
+
           }
 
           if (_tensors_) {
 
-            class_test(0==0,
-                       pop->error_message,
-                       "Seems that we have mixed initial conditions for tensors? Should not happen!\n");
+            //class_test(0==0,
+            //           pop->error_message,
+            //           "Seems that we have mixed initial conditions for tensors? Should not happen!\n");
+
+
+	    /* (Xin) write down addct */
+            if ((ppt->has_addct == _TRUE_) &&
+                (index_ic1 == ppt->index_ic_addct) && (index_ic2 == ppt->index_ic_addct)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_addct.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for adiabatic decaying tensor (ADDCT) mode");
+            }
+
+            if ((ppt->has_addct == _TRUE_) && 
+                (index_ic1 == ppt->index_ic_ten) && (index_ic2 == ppt->index_ic_addct)) {
+
+              sprintf(file_name,"%s%s",pop->root,"cls_ten_addct.dat");
+              strcpy(first_line,"[l(l+1)/2pi] C_l's for tensor cross TENxADDCT mode");
+            }
+
+
+	    /* - (Xin) - */
 
           }
 
@@ -714,6 +780,15 @@ int output_pk(
             strcpy(first_line,"for neutrino velocity isocurvature (NIV) mode ");
           }
 
+	  /* (Xin) */
+          if ((ppt->has_addcs == _TRUE_) &&
+              (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_addcs)) {
+
+            sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_addcs.dat");
+            strcpy(first_line,"for adiabatic decaying scalar (ADDCS) mode ");
+          }
+	  /* -- */
+
           if ((ppt->has_ad == _TRUE_) &&
               (ppt->has_bi == _TRUE_) && (index_ic1 == ppt->index_ic_ad) && (index_ic2 == ppt->index_ic_bi)) {
 
@@ -783,6 +858,44 @@ int output_pk(
             sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_nid_niv.dat");
             strcpy(first_line,"for cross NIDxNIV mode ");
           }
+
+	  /* (Xin) */ 
+          if ((ppt->has_ad == _TRUE_) &&
+              (ppt->has_addcs == _TRUE_) && (index_ic1 == ppt->index_ic_ad) && (index_ic2 == ppt->index_ic_addcs)) {
+
+            sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_ad_addcs.dat");
+            strcpy(first_line,"for cross ADxADDCS mode ");
+          }
+
+          if ((ppt->has_addcs == _TRUE_) &&
+              (ppt->has_bi == _TRUE_) && (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_bi)) {
+
+            sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_addcs_bi.dat");
+            strcpy(first_line,"for cross ADDCSxBI mode ");
+          }
+
+          if ((ppt->has_addcs == _TRUE_) && (ppt->has_cdi == _TRUE_) &&
+              (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_cdi)) {
+
+            sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_addcs_cdi.dat");
+            strcpy(first_line,"for cross ADDCSxCDI mode ");
+          }
+
+          if ((ppt->has_addcs == _TRUE_) && (ppt->has_nid == _TRUE_) &&
+              (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_nid)) {
+
+            sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_addcs_nid.dat");
+            strcpy(first_line,"for scalar cross ADDCSxNID mode ");
+          }
+
+          if ((ppt->has_addcs == _TRUE_) && (ppt->has_niv == _TRUE_) &&
+              (index_ic1 == ppt->index_ic_addcs) && (index_ic2 == ppt->index_ic_niv)) {
+
+            sprintf(file_name,"%s%s%s",pop->root,redshift_suffix,"pk_addcs_niv.dat");
+            strcpy(first_line,"for cross ADDCSxNIV mode ");
+          }
+
+	  /* - (Xin) - */
 
           index_ic1_ic2 = index_symmetric_matrix(index_ic1,index_ic2,psp->ic_size[index_md]);
 

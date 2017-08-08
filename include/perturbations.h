@@ -119,6 +119,9 @@ struct perturbs
   short has_addcs; /**< do we need adiabatic-decaying scalar addcs mode? **/
   short has_addct; /**< do we need adiabatic-decaying tensor addct mode? **/
 
+  /* (Xin) */
+  double phi_addcs;  /* extra parameter for addiabatic-decaying scalar mode, moved from primordial.h to here. NOT the best choice... */
+
   /* perturbed recombination */
   /** Do we want to consider perturbed temperature and ionization fraction? */
   short has_perturbed_recombination;

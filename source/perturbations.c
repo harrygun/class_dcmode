@@ -783,6 +783,10 @@ int perturb_indices_of_perturbs(
       class_define_index(ppt->index_ic_cdi,ppt->has_cdi,index_ic,1);
       class_define_index(ppt->index_ic_nid,ppt->has_nid,index_ic,1);
       class_define_index(ppt->index_ic_niv,ppt->has_niv,index_ic,1);
+      /* (Xin) */
+      class_define_index(ppt->index_ic_addcs,ppt->has_addcs,index_ic,1);
+      /* -- */
+
       ppt->ic_size[index_md] = index_ic;
 
       class_test(index_ic == 0,
@@ -834,6 +838,10 @@ int perturb_indices_of_perturbs(
 
       index_ic = 0;
       class_define_index(ppt->index_ic_ten,_TRUE_,index_ic,1);
+      /* (Xin) */
+      class_define_index(ppt->index_ic_addct,ppt->has_addct,index_ic,1);
+      /* -- */
+
       ppt->ic_size[index_md] = index_ic;
 
     }
@@ -4390,6 +4398,85 @@ int perturb_initial_conditions(struct precision * ppr,
       eta = ppr->entropy_ini*fracnu*k*tau*(-1./(4.*fracnu+5.) + (-3./64.*fracb/fracg+15./4./(4.*fracnu+15.)/(4.*fracnu+5.)*om*tau)); /* small diff wrt camb */
 
     }
+
+    /* (Xin) (b.6.) adiabatic-decaying scalar mode */
+    if ((ppt->has_addcs == _TRUE_) && (index_ic == ppt->index_ic_addcs)) {
+
+
+      //#define phi_var  0 
+      //#define phi_var  (M_PI/4.)
+      #define gamma_var sqrt(32./5.*fracnu - 1.)
+
+      #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
+      /*!!! define phi_var in 'perturbation.h' instead of 'primordial.h', modify 'input.c' as well*/
+
+
+      /* photon density */
+      ppw->pv->y[ppw->pv->index_pt_delta_g] = - pow(k*tau, 1.5)*sin(Xvar)/3.;
+
+      /* photon velocity */
+      ppw->pv->y[ppw->pv->index_pt_theta_g] =  k*pow(k*tau,2.5)/6./(25.+gamma_var*gamma_var)*(gamma_var*cos(Xvar)-5.*sin(Xvar) );
+
+
+      /* tighly-coupled baryons */
+      ppw->pv->y[ppw->pv->index_pt_delta_b] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* baryon density */
+      ppw->pv->y[ppw->pv->index_pt_theta_b] = ppw->pv->y[ppw->pv->index_pt_theta_g]; /* baryon velocity */
+
+      if (pba->has_cdm == _TRUE_) {
+        ppw->pv->y[ppw->pv->index_pt_delta_cdm] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* cdm density */
+        /* cdm velocity vanishes in the synchronous gauge */
+      }
+
+
+      if (pba->has_dcdm == _TRUE_) {
+	printf("dcdm NOT supported for decaying IC mode.\n"); fflush(stdout);
+	return _FAILURE_;
+      }
+
+
+      /* fluid (assumes wa=0, if this is not the case the
+         fluid will catch anyway the attractor solution) */
+      if (pba->has_fld == _TRUE_) {
+	printf("fld NOT supported for decaying IC mode.\n"); fflush(stdout);
+	return _FAILURE_;
+
+      }
+
+
+      if (pba->has_scf == _TRUE_) {
+	printf("scf NOT supported for decaying IC mode.\n"); fflush(stdout);
+	return _FAILURE_;
+      }
+
+      /* relativistic relics: early ncdm, dr */
+      if ((pba->has_dr == _TRUE_) || (pba->has_ncdm == _TRUE_)) {
+        printf("scf NOT supported for decaying IC mode.\n"); fflush(stdout);
+        return _FAILURE_;
+      }
+
+
+      if (pba->has_ur == _TRUE_) {
+
+        /* density of ultra-relativistic neutrinos/relics */
+        delta_ur = 1./2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) );
+
+        /* velocity of ultra-relativistic neutrinos/relics */ //TBC
+        theta_ur = 1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(Xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(Xvar) ); 
+
+
+        //TBC /s2_squared; /* shear of ultra-relativistic neutrinos/relics */  //TBC:0
+        shear_ur = 1./2./pow(k*tau,0.5)*(gamma_var/2.*cos(Xvar)+( (11.-16*fracnu/5.)/10.)*sin(Xvar) );
+
+        l3_ur = 0.; //ktau_three*2./7./(12.*fracnu+45.)* ppr->curvature_ini;//TBC
+
+      }
+
+      /* synchronous metric perturbation eta */
+      eta = 1./2./pow(k*tau,0.5)*((11.-16*fracnu/5.)/8.*sin(Xvar) + 5.*gamma_var/8.*cos(Xvar) );
+
+      }
+    /* - (Xin) - */
+
 
     /** - (c) If the needed gauge is really the synchronous gauge, we need to affect the previously computed value of eta to the actual variable eta */
 

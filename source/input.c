@@ -1744,6 +1744,7 @@ int input_read_parameters(
         class_read_double("n_addcs",ppm->n_addcs);
         class_read_double("alpha_addcs",ppm->alpha_addcs);
 
+        class_read_double("phi_addcs",ppm->phi_addcs);
       }
       /* -- */
 
@@ -3180,6 +3181,7 @@ int input_default_params(
   ppm->f_addcs = 1.;
   ppm->n_addcs = 1.;
   ppm->alpha_addcs = 0.;
+  ppm->phi_addcs = 0.;
 
   ppm->c_ad_addcs = 1.;
   ppm->c_addcs_bi = 1.;

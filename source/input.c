@@ -3194,7 +3194,7 @@ int input_default_params(
   ppm->n_addcs_nid = 0.;  
   ppm->n_addcs_niv = 0.;
   ppm->alpha_ad_addcs = 0.; 
-  ppm->alpha_addcs_bi = 0.;, 
+  ppm->alpha_addcs_bi = 0.;
   ppm->alpha_addcs_cdi = 0.; 
   ppm->alpha_addcs_nid = 0.;
   ppm->alpha_addcs_niv = 0.;

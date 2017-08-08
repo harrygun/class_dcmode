@@ -660,7 +660,7 @@ int input_read_parameters(
   }
 
   Omega_tot = pba->Omega0_g;
-  printf("Omega_tot (Omega0_g)=%e\n", Omega_tot); fflush(stdout);
+  //printf("Omega_tot (Omega0_g)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_b (baryons) */
   class_call(parser_read_double(pfc,"Omega_b",&param1,&flag1,errmsg),
@@ -678,7 +678,7 @@ int input_read_parameters(
     pba->Omega0_b = param2/pba->h/pba->h;
 
   Omega_tot += pba->Omega0_b;
-  printf("Omega_tot (Omega0_g+Omega0_b)=%e\n", Omega_tot); fflush(stdout);
+  //printf("Omega_tot (Omega0_g+Omega0_b)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_ur (ultra-relativistic species / massless neutrino) */
 
@@ -732,7 +732,7 @@ int input_read_parameters(
       pba->Omega0_ur = param3/pba->h/pba->h;
     }
   }
-  printf("omega_ur=%e\n", pba->Omega0_ur ); fflush(stdout);
+  //printf("omega_ur=%e\n", pba->Omega0_ur ); fflush(stdout);
 
   class_call(parser_read_double(pfc,"ceff2_ur",&param1,&flag1,errmsg),
              errmsg,
@@ -745,7 +745,7 @@ int input_read_parameters(
   if (flag1 == _TRUE_) ppt->three_cvis2_ur = 3.*param1;
 
   Omega_tot += pba->Omega0_ur;
-  printf("Omega_tot (Omega0_g+b+ur)=%e\n", Omega_tot); fflush(stdout);
+  //printf("Omega_tot (Omega0_g+b+ur)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_cdm (CDM) */
   class_call(parser_read_double(pfc,"Omega_cdm",&param1,&flag1,errmsg),
@@ -764,7 +764,7 @@ int input_read_parameters(
 
   Omega_tot += pba->Omega0_cdm;
   printf("omega_cdm=%e\n", pba->Omega0_cdm);
-  printf("Omega_tot (Omega0_g+b+ur+cdm)=%e\n", Omega_tot); fflush(stdout);
+  //printf("Omega_tot (Omega0_g+b+ur+cdm)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_dcdmdr (DCDM) */
   class_call(parser_read_double(pfc,"Omega_dcdmdr",&param1,&flag1,errmsg),
@@ -781,7 +781,7 @@ int input_read_parameters(
   if (flag2 == _TRUE_)
     pba->Omega0_dcdmdr = param2/pba->h/pba->h;
   Omega_tot += pba->Omega0_dcdmdr;
-  printf("Omega_tot (Omega0_g+b+ur+cdm+dcdmdr)=%e\n", Omega_tot); fflush(stdout);
+  //printf("Omega_tot (Omega0_g+b+ur+cdm+dcdmdr)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Read Omega_ini_dcdm or omega_ini_dcdm */
   class_call(parser_read_double(pfc,"Omega_ini_dcdm",&param1,&flag1,errmsg),
@@ -935,7 +935,7 @@ int input_read_parameters(
     }
   }
   Omega_tot += pba->Omega0_ncdm_tot;
-  printf("Omega_tot (Omega0_g+b+ur+cdm+dcdmdr+ncdm_tot)=%e\n", Omega_tot); fflush(stdout);
+  //printf("Omega_tot (Omega0_g+b+ur+cdm+dcdmdr+ncdm_tot)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_k (effective fractional density of curvature) */
   class_read_double("Omega_k",pba->Omega0_k);
@@ -945,7 +945,7 @@ int input_read_parameters(
   if (pba->K > 0.) pba->sgnK = 1;
   else if (pba->K < 0.) pba->sgnK = -1;
 
-  printf("final omega_tot=%e\n", Omega_tot); fflush(stdout);
+  //printf("final omega_tot=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_lambda (cosmological constant), Omega0_fld (dark energy fluid), Omega0_scf (scalar field) */
 

@@ -763,7 +763,7 @@ int input_read_parameters(
     pba->Omega0_cdm = param2/pba->h/pba->h;
 
   Omega_tot += pba->Omega0_cdm;
-  printf("omega_cdm=%e\n", pba->Omega0_cdm);
+  //printf("omega_cdm=%e\n", pba->Omega0_cdm);
   //printf("Omega_tot (Omega0_g+b+ur+cdm)=%e\n", Omega_tot); fflush(stdout);
 
   /** - Omega_0_dcdmdr (DCDM) */

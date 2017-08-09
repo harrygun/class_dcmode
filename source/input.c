@@ -751,7 +751,7 @@ int input_read_parameters(
   class_call(parser_read_double(pfc,"Omega_cdm",&param1,&flag1,errmsg),
              errmsg,
              errmsg);
-  class_call(parser_read_double(pfc,"omega_cdm_h2",&param2,&flag2,errmsg),
+  class_call(parser_read_double(pfc,"omega_cdm",&param2,&flag2,errmsg),
              errmsg,
              errmsg);
   class_test(((flag1 == _TRUE_) && (flag2 == _TRUE_)),

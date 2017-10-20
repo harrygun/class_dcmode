@@ -2298,7 +2298,7 @@ int perturb_solve(
 
   tau = tau_mid;
   /* (Xin) */
-  print("tau_ini(%lg)=%lg\n", k, tau);
+  printf("tau_ini(%lg)=%lg\n", k, tau);
   /* (Xin) */
 
   /** - find the number of intervals over which approximation scheme is constant */

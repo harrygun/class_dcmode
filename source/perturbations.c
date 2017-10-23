@@ -2298,8 +2298,8 @@ int perturb_solve(
 
   tau = tau_mid;
   /* (Xin) */
-  printf("tau_ini(k=%4.2e)=%4.2e,  (1./aH)=%4.2e \n", k, tau, 
-         1./ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H]);
+  printf("tau_ini(k=%4.2e)=%4.2e,  (aH)=%4.2e \n", k, tau, 
+         ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H]);
   /* (Xin) */
 
   /** - find the number of intervals over which approximation scheme is constant */

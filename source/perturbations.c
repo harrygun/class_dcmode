@@ -2243,6 +2243,8 @@ int perturb_solve(
   /* start bisection */
   tau_mid = 0.5*(tau_lower + tau_upper);
 
+  printf("tau_ini(k=%4.2e)=%4.2e,  ", k, tau_mid);
+
   while ((tau_upper - tau_lower)/tau_lower > ppr->tol_tau_approx) {
 
     is_early_enough = _TRUE_;

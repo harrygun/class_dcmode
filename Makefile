@@ -46,6 +46,10 @@ OPTFLAG = -O4 -ffast-math #-march=native
 CCFLAG = -g -fPIC
 LDFLAG = -g -fPIC
 
+# (Xin) #
+CCFLAG += -D_XIN_DEBUG_
+# (Xin) #
+
 # leave blank to compile without HyRec, or put path to HyRec directory
 # (with no slash at the end: e.g. hyrec or ../hyrec)
 HYREC = hyrec

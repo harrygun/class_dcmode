@@ -2243,7 +2243,11 @@ int perturb_solve(
   /* start bisection */
   tau_mid = 0.5*(tau_lower + tau_upper);
 
+  /* (Xin) */
+  #ifdef _XIN_DEBUG_
   printf("tau_ini(k=%4.2e)=%4.2e,  ", k, tau_mid);
+  #endif
+  /* (Xin) */
 
   while ((tau_upper - tau_lower)/tau_lower > ppr->tol_tau_approx) {
 
@@ -2300,8 +2304,10 @@ int perturb_solve(
 
   tau = tau_mid;
   /* (Xin) */
+  #ifdef _XIN_DEBUG_
   printf("tau_ini(k=%4.2e)=%4.2e,  (aH)=%4.2e \n", k, tau, 
          ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H]);
+  #endif
   /* (Xin) */
 
   /** - find the number of intervals over which approximation scheme is constant */

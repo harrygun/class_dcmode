@@ -47,7 +47,8 @@ CCFLAG = -g -fPIC
 LDFLAG = -g -fPIC
 
 # (Xin) #
-CCFLAG += -D_XIN_DEBUG_
+##CCFLAG += -D_XIN_DEBUG_
+CCFLAG += -D_XIN_DEBUG_DC_COMB_
 # (Xin) #
 
 # leave blank to compile without HyRec, or put path to HyRec directory

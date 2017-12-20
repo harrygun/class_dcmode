@@ -1749,7 +1749,11 @@ int input_read_parameters(
       }
       
       /* (Xin) adiabatic-decaying-scalar auto-spectrum */
+      #ifdef _XIN_DEBUG_DC_COMB_
+      {
+      #else
       if (ppt->has_addcs == _TRUE_) {
+      #endif
 
         class_read_double("f_addcs",ppm->f_addcs);
         class_read_double("n_addcs",ppm->n_addcs);
@@ -3190,7 +3194,7 @@ int input_default_params(
 
   /* (Xin) decaying mode default values */
   ppm->f_addcs = 1.;
-  ppm->n_addcs = 1.;
+  ppm->n_addcs = 2.;
   ppm->alpha_addcs = 0.;
   ppt->phi_addcs = 0.;
 

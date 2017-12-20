@@ -4207,6 +4207,95 @@ int perturb_initial_conditions(struct precision * ppr,
          set to ppr->curvature_ini at leading order.  Factors s2
          appear through the solution of Einstein equations and
          equations of motion. */
+      
+    #ifdef _XIN_DEBUG_DC_COMB_
+
+      #define gamma_var sqrt(32./5.*fracnu - 1.)
+      #define phi_var ppt->phi_addcs 
+      #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
+      #define Df ppt->f_addcs
+
+      /* photon density */
+      ppw->pv->y[ppw->pv->index_pt_delta_g] = - ktau_two/3. * (1.-om*tau/5.)
+        * ppr->curvature_ini * s2_squared - Df* (pow(k*tau, 1.5)*sin(Xvar)/3.* ppr->curvature_ini*s2_squared);
+
+      /* photon velocity */
+      ppw->pv->y[ppw->pv->index_pt_theta_g] = - k*ktau_three/36. * (1.-3.*(1.+5.*fracb-fracnu)/20./(1.-fracnu)*om*tau)
+        * ppr->curvature_ini * s2_squared + Df* (k*pow(k*tau,2.5)/6./(25.+gamma_var*gamma_var)*(gamma_var*cos(Xvar)-5.*sin(Xvar) )* ppr->curvature_ini * s2_squared);
+
+      /* tighly-coupled baryons */
+      ppw->pv->y[ppw->pv->index_pt_delta_b] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* baryon density */
+      ppw->pv->y[ppw->pv->index_pt_theta_b] = ppw->pv->y[ppw->pv->index_pt_theta_g]; /* baryon velocity */
+
+      if (pba->has_cdm == _TRUE_) {
+        ppw->pv->y[ppw->pv->index_pt_delta_cdm] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* cdm density */
+        /* cdm velocity vanishes in the synchronous gauge */
+      }
+
+      if (pba->has_dcdm == _TRUE_) {
+        ppw->pv->y[ppw->pv->index_pt_delta_dcdm] = 3./4.*ppw->pv->y[ppw->pv->index_pt_delta_g]; /* dcdm density */
+        /* dcdm velocity velocity vanishes initially in the synchronous gauge */
+
+      }
+
+
+      /* fluid (assumes wa=0, if this is not the case the
+         fluid will catch anyway the attractor solution) */
+      if (pba->has_fld == _TRUE_) {
+
+        class_call(background_w_fld(pba,a,&w_fld,&dw_over_da_fld,&integral_fld), pba->error_message, ppt->error_message);
+
+        if (pba->use_ppf == _FALSE_) {
+          ppw->pv->y[ppw->pv->index_pt_delta_fld] = - ktau_two/4.*(1.+w_fld)*(4.-3.*pba->cs2_fld)/(4.-6.*w_fld+3.*pba->cs2_fld) * ppr->curvature_ini * s2_squared; /* from 1004.5509 */ //TBC: curvature
+
+          ppw->pv->y[ppw->pv->index_pt_theta_fld] = - k*ktau_three/4.*pba->cs2_fld/(4.-6.*w_fld+3.*pba->cs2_fld) * ppr->curvature_ini * s2_squared; /* from 1004.5509 */ //TBC:curvature
+        }
+        /* if use_ppf == _TRUE_, y[ppw->pv->index_pt_Gamma_fld] will be automatically set to zero, and this is what we want (although one could probably work out some small nonzero initial conditions: TODO) */
+      }
+
+      if (pba->has_scf == _TRUE_) {
+        /** - ---> Canonical field (solving for the perturbations):
+         *  initial perturbations set to zero, they should reach the attractor soon enough.
+         *  - --->  TODO: Incorporate the attractor IC from 1004.5509.
+         *  delta_phi \f$ = -(a/k)^2/\phi'(\rho + p)\theta \f$,
+         *  delta_phi_prime \f$ = a^2/\phi' \f$ (delta_rho_phi + V'delta_phi),
+         *  and assume theta, delta_rho as for perfect fluid
+         *  with \f$ c_s^2 = 1 \f$ and w = 1/3 (ASSUMES radiation TRACKING)
+        */
+
+        ppw->pv->y[ppw->pv->index_pt_phi_scf] = 0.;
+        /*  a*a/k/k/ppw->pvecback[pba->index_bg_phi_prime_scf]*k*ktau_three/4.*1./(4.-6.*(1./3.)+3.*1.) * (ppw->pvecback[pba->index_bg_rho_scf] + ppw->pvecback[pba->index_bg_p_scf])* ppr->curvature_ini * s2_squared; */
+
+        ppw->pv->y[ppw->pv->index_pt_phi_prime_scf] = 0.;
+        /* delta_fld expression * rho_scf with the w = 1/3, c_s = 1
+            a*a/ppw->pvecback[pba->index_bg_phi_prime_scf]*( - ktau_two/4.*(1.+1./3.)*(4.-3.*1.)/(4.-6.*(1/3.)+3.*1.)*ppw->pvecback[pba->index_bg_rho_scf] - ppw->pvecback[pba->index_bg_dV_scf]*ppw->pv->y[ppw->pv->index_pt_phi_scf])* ppr->curvature_ini * s2_squared; */
+      }
+
+      /* all relativistic relics: ur, early ncdm, dr */
+
+      if ((pba->has_ur == _TRUE_) || (pba->has_ncdm == _TRUE_) || (pba->has_dr == _TRUE_)) {
+
+        delta_ur = ppw->pv->y[ppw->pv->index_pt_delta_g] + Df* (1./2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) )* ppr->curvature_ini * s2_squared) ; /* density of ultra-relativistic neutrinos/relics */
+
+        theta_ur = - k*ktau_three/36./(4.*fracnu+15.) * (4.*fracnu+11.+12.*s2_squared-3.*(8.*fracnu*fracnu+50.*fracnu+275.)/20./(2.*fracnu+15.)*tau*om) * ppr->curvature_ini * s2_squared + Df*(1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(xvar) )* ppr->curvature_ini * s2_squared); /* velocity of ultra-relativistic neutrinos/relics */ //TBC
+
+        shear_ur = ktau_two/(45.+12.*fracnu) * (3.*s2_squared-1.) * (1.+(4.*fracnu-5.)/4./(2.*fracnu+15.)*tau*om) * ppr->curvature_ini + Df*(1./2./pow(k*tau,0.5)*(gamma_var/2.*cos(Xvar)+( (11.-16*fracnu/5.)/10.)*sin(Xvar) )* ppr->curvature_ini);//TBC /s2_squared; /* shear of ultra-relativistic neutrinos/relics */  //TBC:0
+
+        l3_ur = ktau_three*2./7./(12.*fracnu+45.)* ppr->curvature_ini;//TBC
+
+        if (pba->has_dr == _TRUE_) delta_dr = delta_ur;
+
+      }
+
+      /* synchronous metric perturbation eta */
+      //eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om)) /  s2_squared;
+      //eta = ppr->curvature_ini * s2_squared * (1.-ktau_two/12./(15.+4.*fracnu)*(15.*s2_squared-10.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om));
+      eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om)) + Df * (1./2./pow(k*tau,0.5)*((11.-16*fracnu/5.)/8.*sin(Xvar) + 5.*gamma_var/8.*cos(Xvar) )* ppr->curvature_ini);
+
+
+
+
+    #else
 
       /* photon density */
       ppw->pv->y[ppw->pv->index_pt_delta_g] = - ktau_two/3. * (1.-om*tau/5.)
@@ -4284,6 +4373,8 @@ int perturb_initial_conditions(struct precision * ppr,
       //eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om)) /  s2_squared;
       //eta = ppr->curvature_ini * s2_squared * (1.-ktau_two/12./(15.+4.*fracnu)*(15.*s2_squared-10.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om));
       eta = ppr->curvature_ini * (1.-ktau_two/12./(15.+4.*fracnu)*(5.+4.*s2_squared*fracnu - (16.*fracnu*fracnu+280.*fracnu+325)/10./(2.*fracnu+15.)*tau*om));
+
+  #endif
 
     }
 
@@ -4470,7 +4561,7 @@ int perturb_initial_conditions(struct precision * ppr,
         delta_ur = 1./2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) )* ppr->curvature_ini * s2_squared ;
 
         /* velocity of ultra-relativistic neutrinos/relics */ //TBC
-        theta_ur = 1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(Xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(Xvar) )* ppr->curvature_ini * s2_squared ; 
+        theta_ur = 1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(xvar) )* ppr->curvature_ini * s2_squared ; 
 
 
         //TBC /s2_squared; /* shear of ultra-relativistic neutrinos/relics */  //TBC:0

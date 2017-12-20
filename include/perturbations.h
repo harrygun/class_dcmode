@@ -121,6 +121,7 @@ struct perturbs
 
   /* (Xin) */
   double phi_addcs;  /* extra parameter for addiabatic-decaying scalar mode, moved from primordial.h to here. NOT the best choice... */
+  double Df_addcs;   // amplitude of decaying mode, only for DEBUGING //
 
   /* perturbed recombination */
   /** Do we want to consider perturbed temperature and ionization fraction? */

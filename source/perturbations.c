@@ -4213,7 +4213,7 @@ int perturb_initial_conditions(struct precision * ppr,
       #define gamma_var sqrt(32./5.*fracnu - 1.)
       #define phi_var ppt->phi_addcs 
       #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
-      #define Df ppt->f_addcs
+      #define Df ppt->Df_addcs
 
       /* photon density */
       ppw->pv->y[ppw->pv->index_pt_delta_g] = - ktau_two/3. * (1.-om*tau/5.)

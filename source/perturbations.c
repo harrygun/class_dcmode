@@ -4277,7 +4277,7 @@ int perturb_initial_conditions(struct precision * ppr,
 
         delta_ur = ppw->pv->y[ppw->pv->index_pt_delta_g] + Df* (1./2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) )* ppr->curvature_ini * s2_squared) ; /* density of ultra-relativistic neutrinos/relics */
 
-        theta_ur = - k*ktau_three/36./(4.*fracnu+15.) * (4.*fracnu+11.+12.*s2_squared-3.*(8.*fracnu*fracnu+50.*fracnu+275.)/20./(2.*fracnu+15.)*tau*om) * ppr->curvature_ini * s2_squared + Df*(1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(xvar) )* ppr->curvature_ini * s2_squared); /* velocity of ultra-relativistic neutrinos/relics */ //TBC
+        theta_ur = - k*ktau_three/36./(4.*fracnu+15.) * (4.*fracnu+11.+12.*s2_squared-3.*(8.*fracnu*fracnu+50.*fracnu+275.)/20./(2.*fracnu+15.)*tau*om) * ppr->curvature_ini * s2_squared + Df*(1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(Xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(Xvar) )* ppr->curvature_ini * s2_squared); /* velocity of ultra-relativistic neutrinos/relics */ //TBC
 
         shear_ur = ktau_two/(45.+12.*fracnu) * (3.*s2_squared-1.) * (1.+(4.*fracnu-5.)/4./(2.*fracnu+15.)*tau*om) * ppr->curvature_ini + Df*(1./2./pow(k*tau,0.5)*(gamma_var/2.*cos(Xvar)+( (11.-16*fracnu/5.)/10.)*sin(Xvar) )* ppr->curvature_ini);//TBC /s2_squared; /* shear of ultra-relativistic neutrinos/relics */  //TBC:0
 
@@ -4561,7 +4561,7 @@ int perturb_initial_conditions(struct precision * ppr,
         delta_ur = 1./2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) )* ppr->curvature_ini * s2_squared ;
 
         /* velocity of ultra-relativistic neutrinos/relics */ //TBC
-        theta_ur = 1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(xvar) )* ppr->curvature_ini * s2_squared ; 
+        theta_ur = 1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(Xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(Xvar) )* ppr->curvature_ini * s2_squared ; 
 
 
         //TBC /s2_squared; /* shear of ultra-relativistic neutrinos/relics */  //TBC:0

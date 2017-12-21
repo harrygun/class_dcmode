@@ -2,7 +2,7 @@ CLASS: Cosmic Linear Anisotropy Solving System  {#mainpage}
 ==============================================
 
 Authors: Julien Lesgourgues and Thomas Tram
-Modified by Xin Wang 
+Modified by Xin Wang for decaying mode
 
 with several major inputs from other people, especially Benjamin
 Audren, Simon Prunet, Jesus Torrado, Miguel Zumalacarregui, Francesco

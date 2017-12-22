@@ -4209,8 +4209,8 @@ int perturb_initial_conditions(struct precision * ppr,
          equations of motion. */
       
     #ifdef _XIN_DEBUG_DC_COMB_
-
-      #define gamma_var sqrt(32./5.*fracnu - 1.)
+      
+      #define gamma_var sqrt(32./5.*fracnu- 1.)
       #define phi_var ppt->phi_addcs 
       #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
       #define Df ppt->Df_addcs
@@ -4275,7 +4275,7 @@ int perturb_initial_conditions(struct precision * ppr,
 
       if ((pba->has_ur == _TRUE_) || (pba->has_ncdm == _TRUE_) || (pba->has_dr == _TRUE_)) {
 
-        delta_ur = ppw->pv->y[ppw->pv->index_pt_delta_g] + Df* (1./2.*pow(k*tau,1.5)*( (0.25/fracnu -0.4)*sin(Xvar) - gamma_var*0.25/fracnu * cos(Xvar) )* ppr->curvature_ini * s2_squared) ; /* density of ultra-relativistic neutrinos/relics */
+        delta_ur = ppw->pv->y[ppw->pv->index_pt_delta_g] + Df* (1./2.*pow(k*tau,1.5)*( (0.25/fracnu-0.4)*sin(Xvar) - gamma_var*0.25/fracnu* cos(Xvar) )* ppr->curvature_ini * s2_squared) ; /* density of ultra-relativistic neutrinos/relics */
 
         theta_ur = - k*ktau_three/36./(4.*fracnu+15.) * (4.*fracnu+11.+12.*s2_squared-3.*(8.*fracnu*fracnu+50.*fracnu+275.)/20./(2.*fracnu+15.)*tau*om) * ppr->curvature_ini * s2_squared + Df*(1./32./fracnu*k*pow(k*tau,0.5)*((-3.-72./5.*fracnu)*sin(Xvar)+ gamma_var*(3.-8./5.*fracnu)*cos(Xvar) )* ppr->curvature_ini * s2_squared); /* velocity of ultra-relativistic neutrinos/relics */ //TBC
 
@@ -4506,16 +4506,16 @@ int perturb_initial_conditions(struct precision * ppr,
     if ((ppt->has_addcs == _TRUE_) && (index_ic == ppt->index_ic_addcs)) {
 
 
-      #define gamma_var sqrt(32./5.*fracnu - 1.)
+      #define gamma_var sqrt(32./5.*fracnu- 1.)
       #define phi_var ppt->phi_addcs 
       #define Xvar ((gamma_var/2.)*log(k*tau)+phi_var) 
 
 
       /* photon density */
-      ppw->pv->y[ppw->pv->index_pt_delta_g] = - pow(k*tau, 1.5)*sin(Xvar)/3.* ppr->curvature_ini * s2_squared ;
+      ppw->pv->y[ppw->pv->index_pt_delta_g] = - pow(k*tau, 1.5)*sin(Xvar)/3.*ppr->curvature_ini*s2_squared ;
 
       /* photon velocity */
-      ppw->pv->y[ppw->pv->index_pt_theta_g] =  k*pow(k*tau,2.5)/6./(25.+gamma_var*gamma_var)*(gamma_var*cos(Xvar)-5.*sin(Xvar) )* ppr->curvature_ini * s2_squared ;
+      ppw->pv->y[ppw->pv->index_pt_theta_g] = k*pow(k*tau,2.5)/6./(25.+gamma_var*gamma_var)*(gamma_var*cos(Xvar)-5.*sin(Xvar) )* ppr->curvature_ini * s2_squared ;
 
 
       /* tighly-coupled baryons */
@@ -4572,7 +4572,7 @@ int perturb_initial_conditions(struct precision * ppr,
       }
 
       /* synchronous metric perturbation eta */
-      eta = 1./2./pow(k*tau,0.5)*((11.-16*fracnu/5.)/8.*sin(Xvar) + 5.*gamma_var/8.*cos(Xvar) )* ppr->curvature_ini;
+      eta = 1./2./pow(k*tau,0.5)*((11.-16*fracnu/5.)/8.*sin(Xvar) + 5.*gamma_var/8.*cos(Xvar) )*ppr->curvature_ini;
 
       }
     /* - (Xin) - */

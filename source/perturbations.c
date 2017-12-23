@@ -4093,7 +4093,6 @@ int perturb_initial_conditions(struct precision * ppr,
   double s2_squared;
 
   /** --> For scalars */
-  printf("curv_ini=%lg, s2=%lg\n", ppr->curvature_ini, s2_squared);
 
   if (_scalars_) {
 
@@ -4192,6 +4191,7 @@ int perturb_initial_conditions(struct precision * ppr,
         transformation below. */
 
     /** - --> (b.1.) adiabatic */
+    printf("curv_ini=%lg, s2=%lg\n", ppr->curvature_ini, s2_squared);
 
     if ((ppt->has_ad == _TRUE_) && (index_ic == ppt->index_ic_ad)) {
 

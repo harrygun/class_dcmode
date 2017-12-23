@@ -4093,7 +4093,7 @@ int perturb_initial_conditions(struct precision * ppr,
   double s2_squared;
 
   /** --> For scalars */
-  printf("curv_ini=%d, s2=%d\n", ppr->curvature_ini, s2_squared);
+  printf("curv_ini=%lg, s2=%lg\n", ppr->curvature_ini, s2_squared);
 
   if (_scalars_) {
 

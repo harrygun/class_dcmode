@@ -4847,8 +4847,8 @@ int perturb_initial_conditions(struct precision * ppr,
 
     /* (Xin) */
     if (index_ic == ppt->index_ic_addct) {
-    // need to rescale the definition at the epoch at horizon-crossing for each k mode //
-
+    // assuming the same amplitude convention as constant mode //
+      ppw->pv->y[ppw->pv->index_pt_gw] = ppr->gw_ini/_SQRT6_/k/tau;
     }
 
     k2 = k*k;

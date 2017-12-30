@@ -528,7 +528,7 @@ int output_cl(
             if ((ppt->has_addct == _TRUE_) &&
                 (index_ic1 == ppt->index_ic_addct) && (index_ic2 == ppt->index_ic_addct)) {
 
-              sprintf(file_name,"%s%s",pop->root,"cls_addct.dat");
+              sprintf(file_name,"%s%s",pop->root,"cl_addct.dat");
               strcpy(first_line,"[l(l+1)/2pi] C_l's for adiabatic decaying tensor (ADDCT) mode");
             }
 

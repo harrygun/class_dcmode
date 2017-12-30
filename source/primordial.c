@@ -944,7 +944,7 @@ int primordial_analytic_spectrum_init(
              (((index_ic1 == ppt->index_ic_ten) && (index_ic2 == ppt->index_ic_addct)) ||
              ((index_ic2 == ppt->index_ic_ten) && (index_ic1 == ppt->index_ic_addct)))) {
 	
-          one_amplitude = ppm->c_t_addct;
+          one_correlation = ppm->c_t_addct;
           one_tilt = ppm->n_t_addct;
           one_running = ppm->alpha_t_addct;
         }

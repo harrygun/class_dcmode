@@ -1513,11 +1513,15 @@ int input_read_parameters(
       if (flag1 == _TRUE_) {
         if ((strstr(string1,"addct") != NULL) || (strstr(string1,"ADDCT") != NULL)) {
           ppt->has_addct=_TRUE_;
-	  printf("has_addct\n"); fflush(stdout);
 	  }
       }
-      /* -- */
+    if( ppt->has_addct==_TRUE_){
+     printf(">> has_addct=True\n"); fflush(stdout);}
+    else{
+     printf(">> has_addct=False\n"); fflush(stdout);}
+      
 
+      /* -- */
 
 
       class_test((ppt->has_cl_cmb_temperature == _FALSE_) && (ppt->has_cl_cmb_polarization == _FALSE_),

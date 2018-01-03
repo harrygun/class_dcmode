@@ -1504,16 +1504,20 @@ int input_read_parameters(
 
     if (ppt->has_tensors == _TRUE_){
 
+      ppt->has_addct=_FALSE_;
       /* (Xin) add tensor decaying initial condition */
       class_call(parser_read_string(pfc,"ic_tensor",&string1,&flag1,errmsg),
                  errmsg,
                  errmsg);
 
       if (flag1 == _TRUE_) {
-        if ((strstr(string1,"addct") != NULL) || (strstr(string1,"ADDCT") != NULL))
+        if ((strstr(string1,"addct") != NULL) || (strstr(string1,"ADDCT") != NULL)) {
           ppt->has_addct=_TRUE_;
+	  printf("has_addct\n"); fflush(stdout);
+	  }
       }
       /* -- */
+
 
 
       class_test((ppt->has_cl_cmb_temperature == _FALSE_) && (ppt->has_cl_cmb_polarization == _FALSE_),

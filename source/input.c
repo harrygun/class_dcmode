@@ -1504,7 +1504,6 @@ int input_read_parameters(
 
     if (ppt->has_tensors == _TRUE_){
 
-      ppt->has_addct=_FALSE_;
       /* (Xin) add tensor decaying initial condition */
       class_call(parser_read_string(pfc,"ic_tensor",&string1,&flag1,errmsg),
                  errmsg,
@@ -1902,7 +1901,7 @@ int input_read_parameters(
         }
 
         /* (Xin) power spectrum parameter of decaying tensor mode */
-	if(ppt->has_addct) 
+	if(ppt->has_addct == _TRUE_)
 	  {
           /* autospectrum of decaying-tensor mode */
           class_read_double("f_addct",ppm->f_addct);

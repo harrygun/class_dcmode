@@ -2915,6 +2915,18 @@ int input_read_parameters(
 
   }
 
+  /*(Xin) shall we write photon transfer function in a file? */
+  class_call(parser_read_string(pfc,"write Cltransfer",&string1,&flag1,errmsg),
+             errmsg,
+             errmsg);
+
+  if ((flag1 == _TRUE_) && ((strstr(string1,"y") != NULL) || (strstr(string1,"Y") != NULL))) {
+
+    pop->write_primordial = _TRUE_;
+
+  }
+
+
   return _SUCCESS_;
 
 }

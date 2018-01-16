@@ -1977,8 +1977,6 @@ int output_Cltransfer_one_md_ic(
   class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
 
 
-
-
   // output //
   fwrite(&(ptr->tt_size[index_md]), sizeof(int), 1, cltfile);
   fwrite(&(ptr->l_size[index_md]), sizeof(int), 1, cltfile);
@@ -1986,12 +1984,12 @@ int output_Cltransfer_one_md_ic(
 
 
   for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
-    printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
+    //printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
     fwrite(&(ptr->l[index_l]), sizeof(int), 1, cltfile);
     }
   printf("\n"); fflush(stdout);
   for(index_q=0; index_q<ptr->q_size; index_q++)  {
-    printf("q=%lg, ", ptr->q[index_q]);  fflush(stdout);
+    //printf("q=%lg, ", ptr->q[index_q]);  fflush(stdout);
     fwrite(&(ptr->q[index_q]), sizeof(double), 1, cltfile);
     }
   printf("\n"); fflush(stdout);

@@ -1620,6 +1620,7 @@ int output_Cltransfer(
 
   }
 
+  printf("GOT HERE 0"); fflush(stdout);
 
 
   /** - finally, close files and free arrays of files and \f$ C_l\f$'s */
@@ -1636,8 +1637,12 @@ int output_Cltransfer(
   for (index_md = 0; index_md < ppt->md_size; index_md++) {
     free(out_md_ic[index_md]);
   }
+
+  printf("GOT HERE 1"); fflush(stdout);
   free(out_md_ic);
+  printf("GOT HERE 2"); fflush(stdout);
   free(out_md);
+  printf("GOT HERE 3"); fflush(stdout);
 
 
   return _SUCCESS_;

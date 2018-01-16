@@ -1983,7 +1983,7 @@ int output_one_line_of_pk(
  * Output the Cl transfer function for one l *
 **/
 int output_Cltransfer_one_md_ic(
-                                struct transfers * ptr
+                                struct transfers * ptr,
                                 struct output * pop,
                                 FILE *cltfile,
                                 FileName filename,

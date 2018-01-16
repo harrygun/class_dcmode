@@ -1617,6 +1617,7 @@ int output_Cltransfer(
   for (index_md = 0; index_md < ppt->md_size; index_md++) {
     for (index_ic= 0; index_ic< ppt->ic_size[index_md]; index_ic++) {
       fclose(out_md_ic[index_md][index_ic]);
+      printf("closing [%d][%d]", index_md, index_ic); fflush(stdout);
     }
   }
 

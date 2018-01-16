@@ -8,9 +8,7 @@ def load_cltf(fname):
 
     F=open(fname, 'rb')
 
-    tt_size= np.fromfile(F, dtype=np.intc, count=1)[0]
-    l_size = np.fromfile(F, dtype=np.intc, count=1)[0]
-    q_size = np.fromfile(F, dtype=np.intc, count=1)[0]
+    tt_size, l_size, q_size = np.fromfile(F, dtype=np.intc, count=3)[0]
 
     l = np.fromfile(F, dtype=np.intc, count=l_size)
     q = np.fromfile(F, dtype=np.float64, count=q_size)

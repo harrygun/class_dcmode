@@ -1991,7 +1991,7 @@ int output_Cltransfer_one_md_ic(
     }
   printf("\n"); fflush(stdout);
   for(index_q=0; index_q<ptr->q_size; index_q++)  {
-    printf("q=%d, ", ptr->q[index_q]);  fflush(stdout);
+    printf("q=%lg, ", ptr->q[index_q]);  fflush(stdout);
     fwrite(&(ptr->q[index_q]), sizeof(double), 1, cltfile);
     }
   printf("\n"); fflush(stdout);

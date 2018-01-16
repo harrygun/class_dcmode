@@ -203,7 +203,6 @@ int output_Cltransfer_one_md_ic(
                                 struct output * pop,
                                 FILE *cltfile,
                                 FileName filename,
-                                char * first_line,
 			        int index_md,
 			        int index_ic
                                 );

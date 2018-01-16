@@ -1512,7 +1512,7 @@ int output_Cltransfer(
   int index_ic;
 
   FileName file_name;
-  char first_line[_LINE_LENGTH_MAX_];
+  //char first_line[_LINE_LENGTH_MAX_];
 
   /** - first, allocate all arrays of files and \f$ Cl_transfer\f$'s */
 
@@ -1540,42 +1540,42 @@ int output_Cltransfer(
             (index_ic == ppt->index_ic_ad) ) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_sad.dat");
-          strcpy(first_line,"Delta^i_l(q) for scalar adiabatic (AD) mode");
+          //strcpy(first_line,"Delta^i_l(q) for scalar adiabatic (AD) mode");
         }
 
         if ((ppt->has_bi == _TRUE_) &&
             (index_ic == ppt->index_ic_bi)) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_sbi.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for scalar baryon isocurvature (BI) mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar baryon isocurvature (BI) mode");
         }
 
         if ((ppt->has_cdi == _TRUE_) &&
             (index_ic == ppt->index_ic_cdi) ) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_scdi.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for scalar CDM isocurvature (CDI) mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar CDM isocurvature (CDI) mode");
         }
 
         if ((ppt->has_nid == _TRUE_) &&
             (index_ic == ppt->index_ic_nid)) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_snid.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino density isocurvature (NID) mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino density isocurvature (NID) mode");
         }
 
         if ((ppt->has_niv == _TRUE_) &&
             (index_ic == ppt->index_ic_niv) ) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_sniv.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino velocity isocurvature (NIV) mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino velocity isocurvature (NIV) mode");
         }
 
         if ((ppt->has_addcs == _TRUE_) &&
             (index_ic == ppt->index_ic_addcs) ) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_saddcs.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying scalar (ADDCS) mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying scalar (ADDCS) mode");
         }
 
       }
@@ -1585,14 +1585,14 @@ int output_Cltransfer(
         if ( index_ic == ppt->index_ic_ten ) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_ten.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for tensor mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for tensor mode");
         }
 
         if ((ppt->has_addct == _TRUE_) &&
             (index_ic == ppt->index_ic_addct) ) {
 
           sprintf(file_name,"%s%s",pop->root,"cltransfer_taddct.dat");
-          strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying tensor (ADDCT) mode");
+          //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying tensor (ADDCT) mode");
         }
 
       }
@@ -1601,7 +1601,6 @@ int output_Cltransfer(
     class_call(output_Cltransfer_one_md_ic(ptr, pop, 
                                            out_md_ic[index_md][index_ic], 
                                            file_name,
-                                           first_line,
 					   index_md, index_ic),
                pop->error_message,
                pop->error_message);
@@ -1965,7 +1964,6 @@ int output_Cltransfer_one_md_ic(
                                 struct output * pop,
                                 FILE *cltfile,
                                 FileName filename,
-                                char * first_line,
 			        int index_md,
 			        int index_ic
                                 ) {
@@ -1973,12 +1971,7 @@ int output_Cltransfer_one_md_ic(
   int index_q, index_tt, index_l;
   double *tf;
 
-  class_open(cltfile,filename,"w",pop->error_message);
-
-  // header //
-  if (pop->write_header == _TRUE_) {
-    fprintf(cltfile,"Cl transfer functin %s\n",first_line);
-    }
+  class_open(cltfile,filename,"wb",pop->error_message);
 
   // allocate transfer_function list //
   class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);

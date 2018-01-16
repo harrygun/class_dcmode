@@ -199,7 +199,7 @@ extern "C" {
 
 // (Xin) //
 int output_Cltransfer_one_md_ic(
-                                struct transfers * ptr
+                                struct transfers * ptr,
                                 struct output * pop,
                                 FILE *cltfile,
                                 FileName filename,

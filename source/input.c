@@ -2919,12 +2919,10 @@ int input_read_parameters(
   class_call(parser_read_string(pfc,"write Cltransfer",&string1,&flag1,errmsg),
              errmsg,
              errmsg);
-
   if ((flag1 == _TRUE_) && ((strstr(string1,"y") != NULL) || (strstr(string1,"Y") != NULL))) {
-
-    pop->write_primordial = _TRUE_;
-
+    pop->write_Cltransfer = _TRUE_;
   }
+  /*(Xin)*/
 
 
   return _SUCCESS_;
@@ -3269,6 +3267,9 @@ int input_default_params(
   pop->write_thermodynamics = _FALSE_;
   pop->write_perturbations = _FALSE_;
   pop->write_primordial = _FALSE_;
+  /*(Xin)*/
+  pop->write_Cltransfer= _FALSE_;
+
 
   /** - spectra structure */
 

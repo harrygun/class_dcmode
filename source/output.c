@@ -203,6 +203,17 @@ int output_init(
                pop->error_message);
 
   }
+  
+  /*(Xin)*/
+  if (pop->write_Cltransfer == _TRUE_) {
+
+    class_call(output_Cltransfer(ppt,ptr,pop),
+               pop->error_message,
+               pop->error_message);
+
+  }
+  /*(Xin)*/
+
 
   return _SUCCESS_;
 
@@ -1474,6 +1485,166 @@ int output_primordial(
 }
 
 
+/*(Xin)*/
+
+/**
+ * This routines writes the output in files for the photon Cl transfer functions \f$ Delta^i_l(k)\f$'s.
+ *
+ * @param ppt Input: pointer perturbation structure
+ * @param ptr Input: pointer to transfer structure
+ * @param pop Input: pointer to output structure
+ */
+
+int output_Cltransfer(
+                      struct perturbs * ppt,
+                      struct transfers * ptr,
+                      struct output * pop
+                      ) {
+  /** Summary: */
+
+  /** - define local variables */
+
+  FILE *** out_md_ic; /* array of pointers to files with argument
+                         out_md_ic[index_md][index_ic1_ic2]
+                         (will contain cl's for each mode and pairs of initial conditions) */
+
+  FILE ** out_md;     /* array of pointers to files with argument
+                         out_md[index_md]
+                         (will contain cl's for each mode, summed eventually over ic's) */
+
+  FILE * out;         /* (will contain total cl's, summed eventually over modes and ic's) */
+
+  int index_md;
+  int index_ic;
+
+  FileName file_name;
+  char first_line[_LINE_LENGTH_MAX_];
+
+  /** - first, allocate all arrays of files and \f$ Cl_transfer\f$'s */
+
+  class_alloc(out_md_ic,
+              ptr->md_size*sizeof(FILE * *),
+              pop->error_message);
+
+  class_alloc(out_md,
+              ptr->md_size*sizeof(FILE *),
+              pop->error_message);
+
+
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+
+    class_alloc(out_md_ic[index_md],
+                ppt->ic_size[index_md]*sizeof(FILE *),
+                pop->error_message);
+
+  }
+
+  /** - second, open only the relevant files, and write a heading in each of them */
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+
+    for (index_ic = 0; index_ic < ppt->ic_size[index_md]; index_ic++) {
+
+      if (_scalars_) {
+
+        if ((ppt->has_ad == _TRUE_) &&
+            (index_ic == ppt->index_ic_ad) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_sad.dat");
+          strcpy(first_line,"Delta^i_l(q) for scalar adiabatic (AD) mode");
+        }
+
+        if ((ppt->has_bi == _TRUE_) &&
+            (index_ic == ppt->index_ic_bi)) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_sbi.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for scalar baryon isocurvature (BI) mode");
+        }
+
+        if ((ppt->has_cdi == _TRUE_) &&
+            (index_ic == ppt->index_ic_cdi) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_scdi.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for scalar CDM isocurvature (CDI) mode");
+        }
+
+        if ((ppt->has_nid == _TRUE_) &&
+            (index_ic == ppt->index_ic_nid)) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_snid.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino density isocurvature (NID) mode");
+        }
+
+        if ((ppt->has_niv == _TRUE_) &&
+            (index_ic == ppt->index_ic_niv) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_sniv.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino velocity isocurvature (NIV) mode");
+        }
+
+        if ((ppt->has_addcs == _TRUE_) &&
+            (index_ic == ppt->index_ic_addcs) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_saddcs.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying scalar (ADDCS) mode");
+        }
+
+      }
+
+      if (_tensors_) {
+
+        if ( index_ic == ppt->index_ic_ten ) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_ten.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for tensor mode");
+        }
+
+        if ((ppt->has_addct == _TRUE_) &&
+            (index_ic == ppt->index_ic_addct) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_taddct.dat");
+          strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying tensor (ADDCT) mode");
+        }
+
+      }
+
+
+    class_call(output_Cltransfer_one_md_ic(ptr, pop, 
+                                           &(out_md_ic[index_md][index_ic]), 
+                                           file_name,
+                                           first_line,
+					   index_md, index_ic),
+               pop->error_message,
+               pop->error_message);
+
+    }
+
+  }
+
+
+
+  /** - finally, close files and free arrays of files and \f$ C_l\f$'s */
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+    for (index_ic= 0; index_ic< ppt->ic_size[index_md]; index_ic++) {
+      fclose(out_md_ic[index_md][index_ic]);
+    }
+  }
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+    fclose(out_md[index_md]);
+    }
+  fclose(out);
+
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+    free(out_md_ic[index_md]);
+  }
+  free(out_md_ic);
+  free(out_md);
+
+
+  return _SUCCESS_;
+}
+/*(Xin)*/
+
+
 int output_print_data(FILE *out,
                       char titles[_MAXTITLESTRINGLENGTH_],
                       double *dataptr,
@@ -1805,3 +1976,54 @@ int output_one_line_of_pk(
   return _SUCCESS_;
 
 }
+
+
+/*(Xin)*/
+/**
+ * Output the Cl transfer function for one l *
+**/
+int output_Cltransfer_one_md_ic(
+                                struct transfers * ptr
+                                struct output * pop,
+                                FILE *cltfile,
+                                FileName filename,
+                                char * first_line,
+			        int index_md,
+			        int index_ic
+                                ) {
+
+  int index_q, index_tt, index_l;
+  double *tf;
+
+  class_open(*cltfile,filename,"w",pop->error_message);
+
+  // header //
+  if (pop->write_header == _TRUE_) {
+    fprintf(*cltfile,"Cl transfer functin %s\n",first_line);
+    }
+
+  // allocate transfer_function list //
+  class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
+
+  // output //
+  for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {
+
+    for(index_l=0; index_l<ptr->l_size_tt[index_md][index_tt]; index_l++ ) {
+
+      for(index_q=0; index_q<ptr->q_size; index_q++)  {
+        transfer_functions_at_q(ptr, index_md, index_ic, index_tt, index_l, 
+	                        ptr->q[index_q], &tf[index_q]);
+      }
+
+      fwrite(tf, sizeof(double), ptr->q_size, cltfile);
+    }
+  }
+
+  free(tf);
+
+  return _SUCCESS_;
+}
+/*(Xin)*/
+
+
+

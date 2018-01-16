@@ -2000,8 +2000,8 @@ int output_Cltransfer_one_md_ic(
   // output //
   fwrite(&(ptr->l_size), sizeof(int), 1, cltfile);
   fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
-  fwrite(ptr->l, sizeof(int), ptr->l_size, cltfile);
-  fwrite(ptr->q, sizeof(double), ptr->q_size, cltfile);
+  fwrite(&(ptr->l), sizeof(int), ptr->l_size, cltfile);
+  fwrite(&(ptr->q), sizeof(double), ptr->q_size, cltfile);
 
 
   for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {

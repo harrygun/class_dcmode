@@ -1508,12 +1508,6 @@ int output_Cltransfer(
                          out_md_ic[index_md][index_ic1_ic2]
                          (will contain cl's for each mode and pairs of initial conditions) */
 
-  FILE ** out_md;     /* array of pointers to files with argument
-                         out_md[index_md]
-                         (will contain cl's for each mode, summed eventually over ic's) */
-
-  FILE * out;         /* (will contain total cl's, summed eventually over modes and ic's) */
-
   int index_md;
   int index_ic;
 
@@ -1524,10 +1518,6 @@ int output_Cltransfer(
 
   class_alloc(out_md_ic,
               ptr->md_size*sizeof(FILE * *),
-              pop->error_message);
-
-  class_alloc(out_md,
-              ptr->md_size*sizeof(FILE *),
               pop->error_message);
 
 
@@ -1629,10 +1619,6 @@ int output_Cltransfer(
       fclose(out_md_ic[index_md][index_ic]);
     }
   }
-  for (index_md = 0; index_md < ppt->md_size; index_md++) {
-    fclose(out_md[index_md]);
-    }
-  fclose(out);
 
   for (index_md = 0; index_md < ppt->md_size; index_md++) {
     free(out_md_ic[index_md]);
@@ -1641,8 +1627,6 @@ int output_Cltransfer(
   printf("GOT HERE 1"); fflush(stdout);
   free(out_md_ic);
   printf("GOT HERE 2"); fflush(stdout);
-  free(out_md);
-  printf("GOT HERE 3"); fflush(stdout);
 
 
   return _SUCCESS_;

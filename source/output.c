@@ -1977,21 +1977,24 @@ int output_Cltransfer_one_md_ic(
   class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
 
 
-  for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
-    printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
-    }
-  printf("\n"); fflush(stdout);
-  for(index_q=0; index_q<ptr->q_size; index_q++)  {
-    printf("q=%d, ", ptr->q[index_q]);  fflush(stdout);
-    }
 
 
   // output //
   fwrite(&(ptr->tt_size[index_md]), sizeof(int), 1, cltfile);
   fwrite(&(ptr->l_size[index_md]), sizeof(int), 1, cltfile);
   fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
-  fwrite(&(ptr->l), sizeof(int), ptr->l_size[index_md], cltfile);
-  fwrite(&(ptr->q), sizeof(double), ptr->q_size, cltfile);
+
+
+  for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
+    printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
+    fwrite(&(ptr->l[index_l]), sizeof(int), 1, cltfile);
+    }
+  printf("\n"); fflush(stdout);
+  for(index_q=0; index_q<ptr->q_size; index_q++)  {
+    printf("q=%d, ", ptr->q[index_q]);  fflush(stdout);
+    fwrite(&(ptr->q[index_q]), sizeof(double), 1, cltfile);
+    }
+  printf("\n"); fflush(stdout);
 
 
   for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {

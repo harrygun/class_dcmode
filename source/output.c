@@ -1980,8 +1980,9 @@ int output_Cltransfer_one_md_ic(
   for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
     printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
     }
+  printf("\n"); fflush(stdout);
   for(index_q=0; index_q<ptr->q_size; index_q++)  {
-    printf("l=%d, ", ptr->q[index_q]);  fflush(stdout);
+    printf("q=%d, ", ptr->q[index_q]);  fflush(stdout);
     }
 
 

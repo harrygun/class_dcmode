@@ -1610,7 +1610,7 @@ int output_Cltransfer(
 
   }
 
-  printf("GOT HERE 0"); fflush(stdout);
+  //printf("GOT HERE 0"); fflush(stdout);
 
 
   /** - finally, close files and free arrays of files and \f$ C_l\f$'s */
@@ -1624,9 +1624,9 @@ int output_Cltransfer(
     free(out_md_ic[index_md]);
   }
 
-  printf("GOT HERE 1"); fflush(stdout);
+  //printf("GOT HERE 1"); fflush(stdout);
   free(out_md_ic);
-  printf("GOT HERE 2"); fflush(stdout);
+  //printf("GOT HERE 2"); fflush(stdout);
 
 
   return _SUCCESS_;

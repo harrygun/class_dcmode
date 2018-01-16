@@ -1999,7 +1999,7 @@ int output_Cltransfer_one_md_ic(
 
   // header //
   if (pop->write_header == _TRUE_) {
-    fprintf(*cltfile,"Cl transfer functin %s\n",first_line);
+    fprintf(cltfile,"Cl transfer functin %s\n",first_line);
     }
 
   // allocate transfer_function list //

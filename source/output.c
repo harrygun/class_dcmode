@@ -1614,12 +1614,12 @@ int output_Cltransfer(
 
 
   /** - finally, close files and free arrays of files and \f$ C_l\f$'s */
-  for (index_md = 0; index_md < ppt->md_size; index_md++) {
-    for (index_ic= 0; index_ic< ppt->ic_size[index_md]; index_ic++) {
-      fclose(out_md_ic[index_md][index_ic]);
-      printf("closing [%d][%d]", index_md, index_ic); fflush(stdout);
-    }
-  }
+  //for (index_md = 0; index_md < ppt->md_size; index_md++) {
+  //  for (index_ic= 0; index_ic< ppt->ic_size[index_md]; index_ic++) {
+  //    fclose(out_md_ic[index_md][index_ic]);
+  //    printf("closing [%d][%d]", index_md, index_ic); fflush(stdout);
+  //  }
+  //}
 
   printf("GOT HERE 1\n"); fflush(stdout);
 
@@ -1999,17 +1999,11 @@ int output_Cltransfer_one_md_ic(
   class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
 
   // output //
-  printf("here -1\n"); fflush(stdout);
   fwrite(&(ptr->tt_size[index_md]), sizeof(int), 1, cltfile);
-  printf("here 0\n"); fflush(stdout);
   fwrite(&(ptr->l_size[index_md]), sizeof(int), 1, cltfile);
-  printf("here 1\n"); fflush(stdout);
   fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
-  printf("here 2\n"); fflush(stdout);
   fwrite(&(ptr->l), sizeof(int), ptr->l_size[index_md], cltfile);
-  printf("here 3\n"); fflush(stdout);
   fwrite(&(ptr->q), sizeof(double), ptr->q_size, cltfile);
-  printf("here 4\n"); fflush(stdout);
 
 
   for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {
@@ -2027,6 +2021,7 @@ int output_Cltransfer_one_md_ic(
   }
 
   free(tf);
+  fclose(cltfile);
 
   return _SUCCESS_;
 }

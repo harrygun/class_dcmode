@@ -197,6 +197,17 @@ extern "C" {
                              int k_size
                              );
 
+// (Xin) //
+int output_Cltransfer_one_md_ic(
+                                struct transfers * ptr
+                                struct output * pop,
+                                FILE *cltfile,
+                                FileName filename,
+                                char * first_line,
+			        int index_md,
+			        int index_ic
+                                );
+// (Xin) //
 
 #ifdef __cplusplus
 }

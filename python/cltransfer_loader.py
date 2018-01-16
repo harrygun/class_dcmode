@@ -26,12 +26,19 @@ if __name__=='__main__':
     #
     root='/home/xwang/workspace/code/dcmode/workspace/'
 
+    # scalar #
     folder='output/'
     fname=['decay_scalar/cltransfer_ad.dat', 'decay_scalar/cltransfer_addcs.dat']
 
+    # tesnor #
     #folder='output_tensor/'
     #fname=['decay_tensor/cltransfer_ad.dat', 'decay_tensor/cltransfer_ten.dat', \
     #       'decay_tensor/cltransfer_addct.dat']
+
+
+
+    # for scalar, the first few common outputs are [t2, e, t0, t1, b ...]
+    # for tensor, the common outputs are [t2, e, b ]
 
 
     l, q, tf=load_cltf(root+folder+fname[0])
@@ -45,7 +52,7 @@ if __name__=='__main__':
     
     
     for li in llist:
-        pl.semilogx(q, tf[0,li,:]+tf[1,li,:]+tf[2,li,:])
+        pl.semilogx(q, tf[0,li,:]+tf[2,li,:]+tf[3,li,:])   # t0, t1, t2
         #pl.semilogx(q, tf[0,li,:])
     
     

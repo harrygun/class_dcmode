@@ -1957,7 +1957,7 @@ int output_one_line_of_pk(
 
 /*(Xin)*/
 /**
- * Output the Cl transfer function for one l *
+ * Output the Cl transfer function for one md & ic *
 **/
 int output_Cltransfer_one_md_ic(
                                 struct transfers * ptr,

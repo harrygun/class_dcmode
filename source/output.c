@@ -1610,7 +1610,7 @@ int output_Cltransfer(
 
   }
 
-  //printf("GOT HERE 0"); fflush(stdout);
+  printf("GOT HERE 0"); fflush(stdout);
 
 
   /** - finally, close files and free arrays of files and \f$ C_l\f$'s */
@@ -1620,14 +1620,17 @@ int output_Cltransfer(
     }
   }
 
+  printf("GOT HERE 1"); fflush(stdout);
+
   for (index_md = 0; index_md < ppt->md_size; index_md++) {
     free(out_md_ic[index_md]);
   }
 
-  //printf("GOT HERE 1"); fflush(stdout);
-  free(out_md_ic);
-  //printf("GOT HERE 2"); fflush(stdout);
+  printf("GOT HERE 2"); fflush(stdout);
 
+  free(out_md_ic);
+
+  printf("GOT HERE 3"); fflush(stdout);
 
   return _SUCCESS_;
 }
@@ -1995,11 +1998,18 @@ int output_Cltransfer_one_md_ic(
   class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
 
   // output //
+  fwrite(&(ptr->l_size), sizeof(int), 1, cltfile);
+  fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
+  fwrite(ptr->l, sizeof(int), ptr->l_size, cltfile);
+  fwrite(ptr->q, sizeof(double), ptr->q_size, cltfile);
+
+
   for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {
 
-    for(index_l=0; index_l<ptr->l_size_tt[index_md][index_tt]; index_l++ ) {
+    for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
 
       for(index_q=0; index_q<ptr->q_size; index_q++)  {
+
         transfer_functions_at_q(ptr, index_md, index_ic, index_tt, index_l, 
 	                        ptr->q[index_q], &tf[index_q]);
       }

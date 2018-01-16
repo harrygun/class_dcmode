@@ -1539,42 +1539,42 @@ int output_Cltransfer(
         if ((ppt->has_ad == _TRUE_) &&
             (index_ic == ppt->index_ic_ad) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_sad.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_ad.dat");
           //strcpy(first_line,"Delta^i_l(q) for scalar adiabatic (AD) mode");
         }
 
         if ((ppt->has_bi == _TRUE_) &&
             (index_ic == ppt->index_ic_bi)) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_sbi.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_bi.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar baryon isocurvature (BI) mode");
         }
 
         if ((ppt->has_cdi == _TRUE_) &&
             (index_ic == ppt->index_ic_cdi) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_scdi.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_cdi.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar CDM isocurvature (CDI) mode");
         }
 
         if ((ppt->has_nid == _TRUE_) &&
             (index_ic == ppt->index_ic_nid)) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_snid.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_nid.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino density isocurvature (NID) mode");
         }
 
         if ((ppt->has_niv == _TRUE_) &&
             (index_ic == ppt->index_ic_niv) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_sniv.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_niv.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino velocity isocurvature (NIV) mode");
         }
 
         if ((ppt->has_addcs == _TRUE_) &&
             (index_ic == ppt->index_ic_addcs) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_saddcs.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_addcs.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying scalar (ADDCS) mode");
         }
 
@@ -1591,7 +1591,7 @@ int output_Cltransfer(
         if ((ppt->has_addct == _TRUE_) &&
             (index_ic == ppt->index_ic_addct) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_taddct.dat");
+          sprintf(file_name,"%s%s",pop->root,"cltransfer_addct.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying tensor (ADDCT) mode");
         }
 

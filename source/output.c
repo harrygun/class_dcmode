@@ -1609,7 +1609,7 @@ int output_Cltransfer(
 
 
     class_call(output_Cltransfer_one_md_ic(ptr, pop, 
-                                           &(out_md_ic[index_md][index_ic]), 
+                                           out_md_ic[index_md][index_ic], 
                                            file_name,
                                            first_line,
 					   index_md, index_ic),
@@ -1995,7 +1995,7 @@ int output_Cltransfer_one_md_ic(
   int index_q, index_tt, index_l;
   double *tf;
 
-  class_open(cltfile,filename,"w",pop->error_message);
+  class_open(*cltfile,filename,"w",pop->error_message);
 
   // header //
   if (pop->write_header == _TRUE_) {

@@ -2005,7 +2005,7 @@ int output_Cltransfer_one_md_ic(
   printf("here 1\n"); fflush(stdout);
   fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
   printf("here 2\n"); fflush(stdout);
-  fwrite(&(ptr->l), sizeof(int), ptr->l_size, cltfile);
+  fwrite(&(ptr->l), sizeof(int), ptr->l_size[index_md], cltfile);
   printf("here 3\n"); fflush(stdout);
   fwrite(&(ptr->q), sizeof(double), ptr->q_size, cltfile);
   printf("here 4\n"); fflush(stdout);

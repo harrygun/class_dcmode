@@ -2303,6 +2303,16 @@ int perturb_solve(
   }
 
   tau = tau_mid;
+
+  /* (Xin) */
+  if (_scalars_) {
+
+    if ((ppt->has_addcs == _TRUE_) && (index_ic == ppt->index_ic_addcs)) {
+      tau=set_init_tau_decay(ppr, pba, pth, ppt, index_md, index_ic, index_k, ppw, tau_mid);
+      }
+
+    }
+
   /* (Xin) */
   #ifdef _XIN_DEBUG_
   printf("tau_ini(k=%4.2e)=%4.2e,  (aH)=%4.2e \n", k, tau, 
@@ -8466,3 +8476,108 @@ int perturb_rsa_delta_and_theta(
   return _SUCCESS_;
 
 }
+
+
+/* (Xin) */
+double set_init_tau_decay(
+                          struct precision * ppr,
+                          struct background * pba,
+                          struct thermo * pth,
+                          struct perturbs * ppt,
+                          int index_md,
+                          int index_ic,
+                          int index_k,
+                          struct perturb_workspace * ppw,
+			  double tau_input
+                          ) {
+  // set the initial integration time, for decaying mode//
+
+  int n_ncdm,is_early_enough;
+
+  /* conformal time */
+  double tau,tau_lower,tau_upper,tau_mid;
+
+  /* Fourier mode */
+  double k;
+
+
+  ppw->last_index_back=0;
+  ppw->last_index_thermo=0;
+  ppw->inter_mode = pba->inter_normal;
+
+  /** - get wavenumber value */
+  k = ppt->k[index_md][index_k];
+
+
+  /** - using bisection, compute minimum value of tau for which this
+      wavenumber is integrated */
+
+  /* will be at least the first time in the background table */
+  tau_lower = pba->tau_table[0];
+
+  /* is at most the time at which sources must be sampled */
+  tau_upper = ppt->tau_sampling[0];
+
+  /* start bisection */
+  tau_mid = 0.5*(tau_lower + tau_upper);
+
+
+  while ((tau_upper - tau_lower)/tau_lower > ppr->tol_tau_approx) {
+
+    is_early_enough = _TRUE_;
+
+    class_call(background_at_tau(pba,
+                                 tau_mid,
+                                 pba->normal_info,
+                                 pba->inter_normal,
+                                 &(ppw->last_index_back),
+                                 ppw->pvecback),
+               pba->error_message,
+               ppt->error_message);
+
+    /* if there are non-cold relics, check that they are relativistic enough */
+    if (pba->has_ncdm == _TRUE_) {
+      for (n_ncdm=0; n_ncdm < pba->N_ncdm; n_ncdm++) {
+        if (fabs(ppw->pvecback[pba->index_bg_p_ncdm1+n_ncdm]/ppw->pvecback[pba->index_bg_rho_ncdm1+n_ncdm]-1./3.) > ppr->tol_ncdm_initial_w)
+          is_early_enough = _FALSE_;
+      }
+    }
+
+    /* also check that the two conditions on (aH/kappa') and (aH/k) are fulfilled */
+    if (is_early_enough == _TRUE_) {
+
+      class_call(thermodynamics_at_z(pba,
+                                     pth,
+                                     1./ppw->pvecback[pba->index_bg_a]-1.,  /* redshift z=1/a-1 */
+                                     pth->inter_normal,
+                                     &(ppw->last_index_thermo),
+                                     ppw->pvecback,
+                                     ppw->pvecthermo),
+                 pth->error_message,
+                 ppt->error_message);
+      /*
+      if ((ppw->pvecback[pba->index_bg_a]*
+           ppw->pvecback[pba->index_bg_H]/
+           ppw->pvecthermo[pth->index_th_dkappa] >
+           ppr->start_small_k_at_tau_c_over_tau_h) ||
+          (k/ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H] > 1))
+    */
+      if ((k/ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H] > 1))
+
+        is_early_enough = _FALSE_;
+    }
+
+    if (is_early_enough == _TRUE_)
+      tau_lower = tau_mid;
+    else
+      tau_upper = tau_mid;
+
+    tau_mid = 0.5*(tau_lower + tau_upper);
+
+  }
+
+
+
+  return tau;
+  }
+/* (Xin) */

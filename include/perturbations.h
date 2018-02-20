@@ -817,6 +817,21 @@ extern "C" {
   int perturb_prepare_output(struct background * pba,
                              struct perturbs * ppt);
 
+  /*(Xin)*/
+  double set_init_tau_decay(
+                            struct precision * ppr,
+                            struct background * pba,
+                            struct thermo * pth,
+                            struct perturbs * ppt,
+                            int index_md,
+                            int index_ic,
+                            int index_k,
+                            struct perturb_workspace * ppw,
+                            double tau_input
+                            );
+  /*(Xin)*/
+
+
 #ifdef __cplusplus
 }
 #endif

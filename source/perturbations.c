@@ -8555,14 +8555,14 @@ double set_init_tau_decay(
                                      ppw->pvecthermo),
                  pth->error_message,
                  ppt->error_message);
-      /*
+      
       if ((ppw->pvecback[pba->index_bg_a]*
            ppw->pvecback[pba->index_bg_H]/
            ppw->pvecthermo[pth->index_th_dkappa] >
            ppr->start_small_k_at_tau_c_over_tau_h) ||
           (k/ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H] > 1))
-    */
-      if ((k/ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H] > 1))
+    
+      //if ((k/ppw->pvecback[pba->index_bg_a]/ppw->pvecback[pba->index_bg_H] > 1))
 
         is_early_enough = _FALSE_;
     }

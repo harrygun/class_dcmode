@@ -8578,6 +8578,7 @@ double set_init_tau_decay(
 
 
 
-  return tau;
+  //return tau;
+  return 72.1776;
   }
 /* (Xin) */

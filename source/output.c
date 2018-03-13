@@ -1737,11 +1737,6 @@ int output_sources(
                pop->error_message,
                pop->error_message);
 
-    //output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
-    //                         file_name, index_md, index_ic);
-
-    printf("EXIT\n"); fflush(stdout);
-
     }
 
   }
@@ -2169,8 +2164,6 @@ int output_sources_one_md_ic(
 			    int index_ic
                             ) {
 
-  printf("HERE-(begin) %s\n", filename); fflush(stdout);
-
   int index_tau, index_k, index_type;
   double *psource;
 
@@ -2180,27 +2173,27 @@ int output_sources_one_md_ic(
   // open file //
   class_open(outfile,filename,"wb",pop->error_message);
 
-  printf("tau_size=%d\n", ppt->tau_size); fflush(stdout);
+  //printf("tau_size=%d\n", ppt->tau_size); fflush(stdout);
 
   // write down #s //
   fwrite(&(ppt->tau_size), sizeof(int), 1, outfile);
   fwrite(&(ppt->k_size[index_md]), sizeof(int), 1, outfile);
   fwrite(&(ppt->tp_size[index_md]), sizeof(int), 1, outfile);
 
-  printf("HERE-0\n"); fflush(stdout);
+  //printf("HERE-0\n"); fflush(stdout);
 
   for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
     fwrite(&(ppt->tau_sampling[index_tau]), sizeof(double), 1, outfile);
     }
 
-  printf("HERE-1\n"); fflush(stdout);
+  //printf("HERE-1\n"); fflush(stdout);
 
   for(index_k=0; index_k<ppt->k_size[index_md]; index_k++)  {
     fwrite(&(ppt->k[index_md][index_k]), sizeof(double), 1, outfile);
     }
 
 
-  printf("HERE-2\n"); fflush(stdout);
+  //printf("HERE-2\n"); fflush(stdout);
 
   // output source function //
   for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
@@ -2218,7 +2211,7 @@ int output_sources_one_md_ic(
   free(psource);
   fclose(outfile);
 
-  printf("HERE-3\n"); fflush(stdout);
+  //printf("HERE-3\n"); fflush(stdout);
 
   return _SUCCESS_;
 }

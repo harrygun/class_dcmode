@@ -1739,6 +1739,8 @@ int output_sources(
                pop->error_message,
                pop->error_message);
 
+    printf("EXIT\n"); fflush(stdout);
+
     }
 
   }
@@ -2165,6 +2167,8 @@ int output_sources_one_md_ic(
 			    int index_md,
 			    int index_ic
                             ) {
+
+  printf("HERE-(begin)\n"); fflush(stdout);
 
   int index_tau, index_k, index_type;
   double sourceval;

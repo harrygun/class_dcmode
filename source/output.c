@@ -210,8 +210,13 @@ int output_init(
     class_call(output_Cltransfer(ppt,ptr,pop),
                pop->error_message,
                pop->error_message);
-
+	       
+    class_call(output_sources(ppt, ptr, pop), 
+               pop->error_message,
+               pop->error_message);
   }
+
+
   /*(Xin)*/
 
 

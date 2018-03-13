@@ -2164,6 +2164,7 @@ int output_sources_one_md_ic(
   int index_tau, index_k, index_type;
   double sourceval;
 
+  printf("tau_size=%d\n", ppt->tau_size); fflush(stdout);
 
   // write down #s //
   fwrite(&(ppt->tau_size), sizeof(int), 1, outfile);

@@ -1734,10 +1734,13 @@ int output_sources(
       }
 
 
-    class_call(output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
-                                        file_name, index_md, index_ic),
-               pop->error_message,
-               pop->error_message);
+    //class_call(output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
+    //                                    file_name, index_md, index_ic),
+    //           pop->error_message,
+    //           pop->error_message);
+
+    output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
+                             file_name, index_md, index_ic);
 
     printf("EXIT\n"); fflush(stdout);
 

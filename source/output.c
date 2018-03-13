@@ -2173,7 +2173,7 @@ int output_sources_one_md_ic(
   // open file //
   class_open(outfile,filename,"wb",pop->error_message);
 
-  printf("tau_size=%d, index_md=%d, index_ic=%d\n", ppt->tau_size, index_md, index_ic); 
+  printf("%s, index_md=%d, index_ic=%d\n", filename, index_md, index_ic); 
   fflush(stdout);
 
   // write down #s //

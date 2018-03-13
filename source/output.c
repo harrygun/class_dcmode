@@ -2173,7 +2173,8 @@ int output_sources_one_md_ic(
   // open file //
   class_open(outfile,filename,"wb",pop->error_message);
 
-  //printf("tau_size=%d\n", ppt->tau_size); fflush(stdout);
+  printf("tau_size=%d, index_md=%d, index_ic=%d\n", ppt->tau_size, index_md, index_ic); 
+  fflush(stdout);
 
   // write down #s //
   fwrite(&(ppt->tau_size), sizeof(int), 1, outfile);
@@ -2200,8 +2201,10 @@ int output_sources_one_md_ic(
 
     for(index_type=0; index_type<ppt->tp_size[index_md];  index_type++) {
 
-      perturb_sources_at_tau(ppt, index_md, index_ic, index_type,
-                             ppt->tau_sampling[index_tau], psource);
+      class_call(perturb_sources_at_tau(ppt, index_md, index_ic, index_type,
+                             ppt->tau_sampling[index_tau], psource), 
+                 ppt->error_message,
+                 ppt->error_message);
 
       fwrite(psource, sizeof(double), ppt->k_size[index_md], outfile);
     }

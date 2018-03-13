@@ -2150,70 +2150,8 @@ int output_Cltransfer_one_md_ic(
 }
 
 
-/**
- * Output the source function for one md & ic *
-**/
-
-
-int output_Cltransfer_one_md_ic(
-                                struct transfers * ptr,
-                                struct output * pop,
-                                FILE *cltfile,
-                                FileName filename,
-			        int index_md,
-			        int index_ic
-                                ) {
-
-  int index_q, index_tt, index_l;
-  double *tf;
-
-  class_open(cltfile,filename,"wb",pop->error_message);
-
-  // allocate transfer_function list //
-  class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
-
-
-  // output //
-  fwrite(&(ptr->tt_size[index_md]), sizeof(int), 1, cltfile);
-  fwrite(&(ptr->l_size[index_md]), sizeof(int), 1, cltfile);
-  fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
-
-
-  for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
-    //printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
-    fwrite(&(ptr->l[index_l]), sizeof(int), 1, cltfile);
-    }
-  printf("\n"); fflush(stdout);
-  for(index_q=0; index_q<ptr->q_size; index_q++)  {
-    //printf("q=%lg, ", ptr->q[index_q]);  fflush(stdout);
-    fwrite(&(ptr->q[index_q]), sizeof(double), 1, cltfile);
-    }
-  printf("\n"); fflush(stdout);
-
-
-  for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {
-
-    for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
-
-      for(index_q=0; index_q<ptr->q_size; index_q++)  {
-
-        transfer_functions_at_q(ptr, index_md, index_ic, index_tt, index_l, 
-	                        ptr->q[index_q], &tf[index_q]);
-      }
-
-      fwrite(tf, sizeof(double), ptr->q_size, cltfile);
-    }
-  }
-
-  free(tf);
-  fclose(cltfile);
-
-  return _SUCCESS_;
-}
-
 
 // (Xin) //
-
 int output_sources_one_md_ic(
                             struct perturbs * ppt,
                             struct output * pop,

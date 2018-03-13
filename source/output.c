@@ -2168,7 +2168,7 @@ int output_sources_one_md_ic(
   // write down #s //
   fwrite(&(ppt->tau_size), sizeof(int), 1, outfile);
   fwrite(&(ppt->k_size[index_md]), sizeof(int), 1, outfile);
-  fwrite(&(ppt->type_size[index_md]), sizeof(int), 1, outfile);
+  fwrite(&(ppt->tp_size[index_md]), sizeof(int), 1, outfile);
 
 
   for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {

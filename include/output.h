@@ -206,7 +206,21 @@ int output_Cltransfer_one_md_ic(
 			        int index_md,
 			        int index_ic
                                 );
+
+int output_sources_one_md_ic(
+                             struct perturbs * ppt,
+                             struct output * pop,
+                             FILE *outfile,
+                             FileName filename,
+			     int index_md,
+			     int index_ic
+                             );
+
 // (Xin) //
+
+
+
+
 
 #ifdef __cplusplus
 }

@@ -1539,42 +1539,42 @@ int output_Cltransfer(
         if ((ppt->has_ad == _TRUE_) &&
             (index_ic == ppt->index_ic_ad) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_ad.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_ad.dat");
           //strcpy(first_line,"Delta^i_l(q) for scalar adiabatic (AD) mode");
         }
 
         if ((ppt->has_bi == _TRUE_) &&
             (index_ic == ppt->index_ic_bi)) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_bi.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_bi.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar baryon isocurvature (BI) mode");
         }
 
         if ((ppt->has_cdi == _TRUE_) &&
             (index_ic == ppt->index_ic_cdi) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_cdi.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_cdi.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar CDM isocurvature (CDI) mode");
         }
 
         if ((ppt->has_nid == _TRUE_) &&
             (index_ic == ppt->index_ic_nid)) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_nid.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_nid.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino density isocurvature (NID) mode");
         }
 
         if ((ppt->has_niv == _TRUE_) &&
             (index_ic == ppt->index_ic_niv) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_niv.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_niv.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino velocity isocurvature (NIV) mode");
         }
 
         if ((ppt->has_addcs == _TRUE_) &&
             (index_ic == ppt->index_ic_addcs) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_addcs.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_addcs.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying scalar (ADDCS) mode");
         }
 
@@ -1584,14 +1584,14 @@ int output_Cltransfer(
 
         if ( index_ic == ppt->index_ic_ten ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_ten.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_ten.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for tensor mode");
         }
 
         if ((ppt->has_addct == _TRUE_) &&
             (index_ic == ppt->index_ic_addct) ) {
 
-          sprintf(file_name,"%s%s",pop->root,"cltransfer_addct.dat");
+          sprintf(file_name,"%s%s",pop->root,"sources_addct.dat");
           //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying tensor (ADDCT) mode");
         }
 
@@ -1619,6 +1619,140 @@ int output_Cltransfer(
 
   return _SUCCESS_;
 }
+
+
+
+int output_sources(
+                   struct perturbs * ppt,
+                   struct transfers * ptr,
+                   struct output * pop
+                   ) {
+  /** Summary: */
+
+  /** - define local variables */
+
+  FILE *** out_md_ic; /* array of pointers to files with argument
+                         out_md_ic[index_md][index_ic1_ic2]
+                         (will contain cl's for each mode and pairs of initial conditions) */
+
+
+  int index_md;
+  int index_ic;
+
+  FileName file_name;
+  //char first_line[_LINE_LENGTH_MAX_];
+
+  /** - first, allocate all arrays of files and \f$ Cl_transfer\f$'s */
+
+  class_alloc(out_md_ic,
+              ptr->md_size*sizeof(FILE * *),
+              pop->error_message);
+
+
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+
+    class_alloc(out_md_ic[index_md],
+                ppt->ic_size[index_md]*sizeof(FILE *),
+                pop->error_message);
+
+  }
+
+
+
+
+  /** - now, open only the relevant files, and write a heading in each of them */
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+
+    for (index_ic = 0; index_ic < ppt->ic_size[index_md]; index_ic++) {
+
+      if (_scalars_) {
+
+        if ((ppt->has_ad == _TRUE_) &&
+            (index_ic == ppt->index_ic_ad) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_ad.dat");
+          //strcpy(first_line,"Delta^i_l(q) for scalar adiabatic (AD) mode");
+        }
+
+        if ((ppt->has_bi == _TRUE_) &&
+            (index_ic == ppt->index_ic_bi)) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_bi.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar baryon isocurvature (BI) mode");
+        }
+
+        if ((ppt->has_cdi == _TRUE_) &&
+            (index_ic == ppt->index_ic_cdi) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_cdi.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar CDM isocurvature (CDI) mode");
+        }
+
+        if ((ppt->has_nid == _TRUE_) &&
+            (index_ic == ppt->index_ic_nid)) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_nid.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino density isocurvature (NID) mode");
+        }
+
+        if ((ppt->has_niv == _TRUE_) &&
+            (index_ic == ppt->index_ic_niv) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_niv.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for scalar neutrino velocity isocurvature (NIV) mode");
+        }
+
+        if ((ppt->has_addcs == _TRUE_) &&
+            (index_ic == ppt->index_ic_addcs) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_addcs.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying scalar (ADDCS) mode");
+        }
+
+      }
+
+      if (_tensors_) {
+
+        if ( index_ic == ppt->index_ic_ten ) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_ten.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for tensor mode");
+        }
+
+        if ((ppt->has_addct == _TRUE_) &&
+            (index_ic == ppt->index_ic_addct) ) {
+
+          sprintf(file_name,"%s%s",pop->root,"sources_addct.dat");
+          //strcpy(first_line,"Delta^i_l(q)'s for adiabatic decaying tensor (ADDCT) mode");
+        }
+
+      }
+
+
+    class_call(output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
+                                        file_name, index_md, index_ic),
+               pop->error_message,
+               pop->error_message);
+
+    }
+
+  }
+
+
+  // free all //
+  for (index_md = 0; index_md < ppt->md_size; index_md++) {
+    free(out_md_ic[index_md]);
+  }
+
+
+  free(out_md_ic);
+
+  return _SUCCESS_;
+}
+
+
+
+
 /*(Xin)*/
 
 
@@ -2014,6 +2148,122 @@ int output_Cltransfer_one_md_ic(
 
   return _SUCCESS_;
 }
+
+
+/**
+ * Output the source function for one md & ic *
+**/
+
+
+int output_Cltransfer_one_md_ic(
+                                struct transfers * ptr,
+                                struct output * pop,
+                                FILE *cltfile,
+                                FileName filename,
+			        int index_md,
+			        int index_ic
+                                ) {
+
+  int index_q, index_tt, index_l;
+  double *tf;
+
+  class_open(cltfile,filename,"wb",pop->error_message);
+
+  // allocate transfer_function list //
+  class_alloc(tf, ptr->q_size*sizeof(double), pop->error_message);
+
+
+  // output //
+  fwrite(&(ptr->tt_size[index_md]), sizeof(int), 1, cltfile);
+  fwrite(&(ptr->l_size[index_md]), sizeof(int), 1, cltfile);
+  fwrite(&(ptr->q_size), sizeof(int), 1, cltfile);
+
+
+  for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
+    //printf("l=%d, ", ptr->l[index_l]);  fflush(stdout);
+    fwrite(&(ptr->l[index_l]), sizeof(int), 1, cltfile);
+    }
+  printf("\n"); fflush(stdout);
+  for(index_q=0; index_q<ptr->q_size; index_q++)  {
+    //printf("q=%lg, ", ptr->q[index_q]);  fflush(stdout);
+    fwrite(&(ptr->q[index_q]), sizeof(double), 1, cltfile);
+    }
+  printf("\n"); fflush(stdout);
+
+
+  for(index_tt=0; index_tt<ptr->tt_size[index_md]; index_tt++) {
+
+    for(index_l=0; index_l<ptr->l_size[index_md]; index_l++ ) {
+
+      for(index_q=0; index_q<ptr->q_size; index_q++)  {
+
+        transfer_functions_at_q(ptr, index_md, index_ic, index_tt, index_l, 
+	                        ptr->q[index_q], &tf[index_q]);
+      }
+
+      fwrite(tf, sizeof(double), ptr->q_size, cltfile);
+    }
+  }
+
+  free(tf);
+  fclose(cltfile);
+
+  return _SUCCESS_;
+}
+
+
+// (Xin) //
+
+int output_sources_one_md_ic(
+                            struct perturbs * ppt,
+                            struct output * pop,
+                            FILE *outfile,
+                            FileName filename,
+			    int index_md,
+			    int index_ic
+                            ) {
+
+  int index_tau, index_k, index_type;
+  double sourceval;
+
+
+  // write down #s //
+  fwrite(&(ppt->tau_size), sizeof(int), 1, outfile);
+  fwrite(&(ppt->k_size[index_md]), sizeof(int), 1, outfile);
+  fwrite(&(ppt->type_size[index_md]), sizeof(int), 1, outfile);
+
+
+  for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
+    fwrite(&(ppt->tau_sampling[index_tau]), sizeof(double), 1, outfile);
+    }
+
+  for(index_k=0; index_k<ppt->k_size[index_md]; index_k++)  {
+    fwrite(&(ppt->k[index_md][index_k]), sizeof(double), 1, outfile);
+    }
+
+
+  // output source function //
+  for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
+
+    for(index_k=0; index_k<ppt->k_size[index_md]; index_k++)  {
+
+      for(index_type=0; index_type<ppt->tp_size[index_md];  index_type++) {
+
+        perturb_sources_at_tau(ppt, index_md, index_ic, index_type,
+                               ppt->tau_sampling[index_tau], &sourceval);
+
+        fwrite(sourceval, sizeof(double), 1, outfile);
+      }
+    }
+
+  }
+
+  fclose(outfile);
+
+  return _SUCCESS_;
+}
+
+
 /*(Xin)*/
 
 

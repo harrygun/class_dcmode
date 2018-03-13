@@ -1663,8 +1663,6 @@ int output_sources(
   }
 
 
-
-
   /** - now, open only the relevant files, and write a heading in each of them */
   for (index_md = 0; index_md < ppt->md_size; index_md++) {
 
@@ -1734,13 +1732,13 @@ int output_sources(
       }
 
 
-    //class_call(output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
-    //                                    file_name, index_md, index_ic),
-    //           pop->error_message,
-    //           pop->error_message);
+    class_call(output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
+                                        file_name, index_md, index_ic),
+               pop->error_message,
+               pop->error_message);
 
-    output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
-                             file_name, index_md, index_ic);
+    //output_sources_one_md_ic(ppt, pop, out_md_ic[index_md][index_ic], 
+    //                         file_name, index_md, index_ic);
 
     printf("EXIT\n"); fflush(stdout);
 
@@ -2171,11 +2169,15 @@ int output_sources_one_md_ic(
 			    int index_ic
                             ) {
 
-  printf("HERE-(begin)\n"); fflush(stdout);
+  printf("HERE-(begin) %s\n", filename); fflush(stdout);
 
   int index_tau, index_k, index_type;
-  double sourceval;
+  double *psource;
 
+  // allocate //
+  class_alloc(psource, ppt->k_size[index_md]*sizeof(double), pop->error_message);
+
+  // open file //
   class_open(outfile,filename,"wb",pop->error_message);
 
   printf("tau_size=%d\n", ppt->tau_size); fflush(stdout);
@@ -2203,19 +2205,17 @@ int output_sources_one_md_ic(
   // output source function //
   for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
 
-    for(index_k=0; index_k<ppt->k_size[index_md]; index_k++)  {
+    for(index_type=0; index_type<ppt->tp_size[index_md];  index_type++) {
 
-      for(index_type=0; index_type<ppt->tp_size[index_md];  index_type++) {
+      perturb_sources_at_tau(ppt, index_md, index_ic, index_type,
+                             ppt->tau_sampling[index_tau], psource);
 
-        perturb_sources_at_tau(ppt, index_md, index_ic, index_type,
-                               ppt->tau_sampling[index_tau], &sourceval);
-
-        fwrite(&sourceval, sizeof(double), 1, outfile);
-      }
+      fwrite(psource, sizeof(double), ppt_ksize[index_md], outfile);
     }
 
   }
 
+  free(psource);
   fclose(outfile);
 
   printf("HERE-3\n"); fflush(stdout);

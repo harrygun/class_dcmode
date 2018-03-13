@@ -2190,7 +2190,7 @@ int output_sources_one_md_ic(
         perturb_sources_at_tau(ppt, index_md, index_ic, index_type,
                                ppt->tau_sampling[index_tau], &sourceval);
 
-        fwrite(sourceval, sizeof(double), 1, outfile);
+        fwrite(&sourceval, sizeof(double), 1, outfile);
       }
     }
 

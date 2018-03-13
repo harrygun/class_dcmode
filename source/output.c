@@ -2176,15 +2176,20 @@ int output_sources_one_md_ic(
   fwrite(&(ppt->k_size[index_md]), sizeof(int), 1, outfile);
   fwrite(&(ppt->tp_size[index_md]), sizeof(int), 1, outfile);
 
+  printf("HERE-0\n"); fflush(stdout);
 
   for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
     fwrite(&(ppt->tau_sampling[index_tau]), sizeof(double), 1, outfile);
     }
 
+  printf("HERE-1\n"); fflush(stdout);
+
   for(index_k=0; index_k<ppt->k_size[index_md]; index_k++)  {
     fwrite(&(ppt->k[index_md][index_k]), sizeof(double), 1, outfile);
     }
 
+
+  printf("HERE-2\n"); fflush(stdout);
 
   // output source function //
   for(index_tau=0; index_tau<ppt->tau_size; index_tau++)  {
@@ -2203,6 +2208,8 @@ int output_sources_one_md_ic(
   }
 
   fclose(outfile);
+
+  printf("HERE-3\n"); fflush(stdout);
 
   return _SUCCESS_;
 }

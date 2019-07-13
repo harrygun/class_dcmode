@@ -4860,8 +4860,8 @@ int perturb_initial_conditions(struct precision * ppr,
     // assuming the same amplitude convention as constant mode //
 
       // (Xin) //
-      //ppw->pv->y[ppw->pv->index_pt_gw] = ppr->gw_ini/_SQRT6_/k/tau;
-      ppw->pv->y[ppw->pv->index_pt_gw] = ppr->gw_ini*cos(k*tau)/_SQRT6_/k/tau;
+      ppw->pv->y[ppw->pv->index_pt_gw] = ppr->gw_ini/_SQRT6_/k/tau;
+      //ppw->pv->y[ppw->pv->index_pt_gw] = ppr->gw_ini*cos(k*tau)/_SQRT6_/k/tau;
     }
 
     k2 = k*k;
